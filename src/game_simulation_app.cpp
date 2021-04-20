@@ -8,14 +8,21 @@ namespace geometrydash {
   void GeometryDashApp::draw() {
     ci::Color background_color("black");
     ci::gl::clear(background_color);
+    
+    game_frame_.Display();
   }
 
   void GeometryDashApp::update() {
     AppBase::update();
+    
+    game_frame_.AdvanceOneFrame();
   }
 
   void GeometryDashApp::keyDown(cinder::app::KeyEvent event) {
-    AppBase::keyDown(event);
+    
+    if (event.getChar() == 'j') {
+      game_frame_.Jump();
+    }
   }
   
 }// namespace geometrydash

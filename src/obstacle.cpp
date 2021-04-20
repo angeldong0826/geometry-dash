@@ -10,10 +10,9 @@ namespace geometrydash {
   //    color_ = color;
   //  }
 
-  Obstacle::Obstacle(const glm::vec2 &position, const glm::vec2 &velocity, const ci::Color &color) {
+  Obstacle::Obstacle(const glm::vec2 &position, const glm::vec2 &velocity) {
     position_ = position;
     velocity_ = velocity;
-    color_ = color;
   }
 
   glm::vec2 Obstacle::GetPosition() const {
@@ -22,11 +21,11 @@ namespace geometrydash {
   glm::vec2 Obstacle::GetVelocity() const {
     return velocity_;
   }
-  //  cinder::geom::Source Obstacle::GetShape() const {
-  //    return shape_;
+//    cinder::geom::Source Obstacle::GetShape() const {
+//      return shape_;
+//    }
+  //  ci::Color Obstacle::GetColor() const {
+  //    return color_;
   //  }
-  ci::Color Obstacle::GetColor() const {
-    return color_;
-  }
 
 }// namespace geometrydash

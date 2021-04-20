@@ -10,10 +10,9 @@ namespace geometrydash {
   //    color_ = color;
   //  }
 
-  Player::Player(const glm::vec2 &position, const glm::vec2 &velocity, const cinder::Color &color) {
+  Player::Player(const glm::vec2 &position, const glm::vec2 &velocity) {
     position_ = position;
     velocity_ = velocity;
-    color_ = color;
   }
 
   glm::vec2 Player::GetPosition() const {
@@ -22,11 +21,19 @@ namespace geometrydash {
   glm::vec2 Player::GetVelocity() const {
     return velocity_;
   }
+  
+  void Player::SetPosition(glm::vec2 position) {
+    position_ = position;
+  }
+  void Player::SetVelocity(glm::vec2 velocity) {
+    velocity_ = velocity;
+  }
+  
   //  cinder::geom::Source Player::GetShape() const {
   //    return shape_;
   //  }
-  ci::Color Player::GetColor() const {
-    return color_;
-  }
+  //  ci::Color Player::GetColor() const {
+  //    return color_;
+  //  }
 
 }// namespace geometrydash

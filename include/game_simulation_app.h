@@ -35,11 +35,11 @@ namespace geometrydash {
   private:
     const size_t kWindowLength = 1300;    // display window length
     const size_t kWindowWidth = 700;      // display window width
-    const size_t kContainerMargin = 100;  // container margin
+    const size_t kFrameMargin = 100;  // frame margin
 
     GameEngine game_frame_ =
-            GameEngine(glm::vec2(kContainerMargin, kContainerMargin),
-                    glm::vec2(kWindowLength - kContainerMargin, kWindowWidth - kContainerMargin));  // instance of game frame
+            GameEngine(glm::vec2(kFrameMargin, kFrameMargin),
+                    glm::vec2(kWindowLength - kFrameMargin, kWindowWidth - kFrameMargin));  // instance of game frame
   };
 
 }  // namespace idealgas

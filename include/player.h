@@ -23,21 +23,24 @@ namespace geometrydash {
      * 
      * @param player position 
      * @param player velocity 
-     * @param player color 
      */
-    Player(const glm::vec2 &position, const glm::vec2 &velocity, const ci::Color &color);
+    Player(const glm::vec2 &position, const glm::vec2 &velocity);
 
     // Getter methods
     glm::vec2 GetPosition() const;
     glm::vec2 GetVelocity() const;
-    //    cinder::geom::Source GetShape() const;
-    ci::Color GetColor() const;
+//    cinder::geom::Source GetShape() const;
+//    ci::Color GetColor() const;
+    
+    // Setter methods
+    void SetPosition(glm::vec2 position);
+    void SetVelocity(glm::vec2 velocity);
     
   private:
     glm::vec2 position_;// player position
     glm::vec2 velocity_;// player velocity
-                        //    cinder::geom::Source shape_; // player shape
-    ci::Color color_;   // player color
+//    cinder::geom::Source shape_; // player shape
+//    ci::Color color_;   // player color
   };
 
 }// namespace geometrydash

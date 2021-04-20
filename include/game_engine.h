@@ -2,6 +2,7 @@
 
 #include "cinder/gl/gl.h"
 #include "obstacle.h"
+#include "player.h"
 
 namespace geometrydash {
 
@@ -18,8 +19,7 @@ namespace geometrydash {
      * @param top_left_corner coordinates of top left corner of frame
      * @param bottom_right_corner coordinates of bottom right corner of frame
      */
-    GameEngine(const glm::vec2 &top_left_corner,
-               const glm::vec2 &bottom_right_corner);
+    GameEngine(const glm::vec2 &top_left_corner, const glm::vec2 &bottom_right_corner);
 
     /**
      * Displays the frame walls and the current positions of the particles in game.
@@ -52,38 +52,27 @@ namespace geometrydash {
      */
     std::vector<Obstacle> GetObstacles() const;
 
+    void Jump();
+
   private:
     // game frame attributes
     const size_t kContainerBorderWidth = 5;// border width of container
 
-    //    const size_t kParticleAmount = 42;       // amount of particles in container
-
-    //    // pink particles attributes
-    //    const double kPinkMass = 5.0;         // pink particle mass
-    //    const double kPinkRadius = 7.0;       // pink particle radius
-    //    const ci::Color kPinkColor = "pink";  // pink particle color
-    //    const glm::vec2 kPinkInitialVelocity = {
-    //            6.0, 6.0};  // pink particle initial velocity
-    //
-    //    // teal particles attributes
-    //    const double kTealMass = 20.0;        // teal particle mass
-    //    const double kTealRadius = 20.0;      // teal particle radius
-    //    const ci::Color kTealColor = "teal";  // teal particle color
-    //    const glm::vec2 kTealInitialVelocity = {
-    //            4.0, -4.0};  // teal particle initial velocity
-    //
-    //    // white particles attributes
-    //    const double kWhiteMass = 30.0;         // white particle mass
-    //    const double kWhiteRadius = 30.0;       // white particle radius
-    //    const ci::Color kWhiteColor = "white";  // white particle color
-    //    const glm::vec2 kWhiteInitialVelocity = {
-    //            1.4, 1.4};  // white particle initial velocity
-
     glm::vec2 top_left_coordinate_;    // top left corner of container
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
 
-    const size_t kWindowLength = 1300;// display window length
-    const size_t kWindowWidth = 700;  // display window width
+    const size_t kWindowLength = 1300;                // display window length
+    const size_t kWindowWidth = 700;                  // display window width
+    const size_t kPlayerWidth = 40;                   // player width
+    const size_t kFrameMargin = 100;                  // frame margin
+    const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
+    const double kJumpFactor = -10.0; // factor that player jumps by
+
+    const glm::vec2 starting_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
+                                          kLinePosition - kPlayerWidth / 2};// player starting position
+    const glm::vec2 starting_velocity_ = glm::vec2{0, 0};               // player starting velocity
+
+    Player player_ = Player(starting_position_, starting_velocity_);// instance of player
 
     size_t advancement_tracker_;// tracks number of advancement
 

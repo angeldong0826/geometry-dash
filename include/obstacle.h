@@ -34,22 +34,22 @@ namespace geometrydash {
     glm::vec2 GetVelocity() const;
     size_t GetHeight() const;
     size_t GetWidth() const;
-    
+
     // Setter methods
-    void SetPosition(const glm::vec2& position);
-    void SetVelocity(const glm::vec2& velocity);
-    
-//    cinder::geom::Source GetShape() const;
-//    ci::Color GetColor() const;
+    void SetPosition(const glm::vec2 &position);
+    void SetVelocity(const glm::vec2 &velocity);
+
+    //    cinder::geom::Source GetShape() const;
+    //    ci::Color GetColor() const;
 
   private:
     glm::vec2 position_;// position of obstacle
     glm::vec2 velocity_;// velocity of obstacle
-    size_t height_; // height of obstacle
-    size_t width_; // width of obstacle
-    
-//    cinder::geom::Source shape_;// shape of obstacle
-//    ci::Color color_;   // color of obstacle
+    size_t height_;     // height of obstacle
+    size_t width_;      // width of obstacle
+
+    //    cinder::geom::Source shape_;// shape of obstacle
+    //    ci::Color color_;   // color of obstacle
   };
 
 }// namespace geometrydash

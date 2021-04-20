@@ -15,9 +15,9 @@ namespace geometrydash {
      * @param top_left_coordinate 
      * @param bottom_right_coordinate 
      */
-    PlayerManager(const glm::vec2& top_left_coordinate,
-                  const glm::vec2& bottom_right_coordinate);
-    
+    PlayerManager(const glm::vec2 &top_left_coordinate,
+                  const glm::vec2 &bottom_right_coordinate);
+
     /**
      * Method that determines whether or not player collides with top boundary.
      * 
@@ -25,52 +25,59 @@ namespace geometrydash {
      * @param axis 
      * @return true if collided and false otherwise
      */
-    bool IsCollideWithTop(Player& player) const;
-    
+    bool IsCollideWithTop(Player &player) const;
+
     /**
      * Method that determines whether or not player collides with bottom boundary.
      * 
      * @param player 
      * @return 
      */
-    bool IsCollideWithBottom(Player& player) const;
-    
+    bool IsCollideWithBottom(Player &player) const;
+
     /**
      * Method that calculates post top boundary collision velocity.
      * 
      * @param player 
      */
-    void CalculatePostTopCollisionVelocity(Player& player);
-    
+    void CalculatePostTopCollisionVelocity(Player &player);
+
     /**
      * Method that calculates post bottom boundary collision velocity.
      * 
      * @param player 
      */
-    void CalculatePostBottomCollisionVelocity(Player& player);
-    
+    void CalculatePostBottomCollisionVelocity(Player &player);
+
     /**
      * Action taken after playing colliding with boundary.
      * 
      * @param player 
      */
-    void CollidesWithBoundary(Player& player);
-    
+    void CollidesWithBoundary(Player &player);
+
     /**
      * Method that determines whether player has collided with obstacle/lost the game.
      * 
      * @param player 
      * @return true if collided false otherwise
      */
-    bool IsCollideWithObstacle(Player& player);
+//    void IsCollideWithObstacle(Player &player, std::vector<Obstacle>& obstacles);
     
+    // Getter methods
+    bool GetIsCollideWithObstacle() const;
+
   private:
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
-    const size_t kJumpDistance = 250; // player vertical jump distance
+    const size_t kJumpDistance = 250;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
+//    const size_t kObstacleHeight = 100;               // obstacle height
+//    const size_t kObstacleWidth = 40;                 // obstacle width
+    
+    bool collide_with_obstacle_; // whether player has collided with obstacle
 
-    glm::vec2 top_left_coordinate_;      // top left corner of game frame
-    glm::vec2 bottom_right_coordinate_;  // bottom right corner of game frame
+    glm::vec2 top_left_coordinate_;    // top left corner of game frame
+    glm::vec2 bottom_right_coordinate_;// bottom right corner of game frame
   };
-}
+}// namespace geometrydash

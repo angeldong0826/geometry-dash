@@ -8,7 +8,6 @@ namespace geometrydash {
   }
 
   bool PlayerManager::IsCollideWithTop(Player &player) const {
-    // if player collides with top or bottom boundary
     if ((player.GetVelocity().y < 0) && (player.GetPosition().y <= static_cast<float>(kLinePosition) - static_cast<float>(kJumpDistance))) {
       return true;
     }
@@ -53,4 +52,20 @@ namespace geometrydash {
       CalculatePostBottomCollisionVelocity(player);
     }
   }
+
+//  void PlayerManager::IsCollideWithObstacle(Player &player, std::vector<Obstacle>& obstacles) {
+//    for (auto & obstacle : obstacles) {
+//      if ((player.GetPosition().x + static_cast<float>(kPlayerWidth)/2 >= obstacle.GetPosition().x - static_cast<float>(kObstacleWidth)/2) 
+//          && (player.GetPosition().y < obstacle.GetPosition().y 
+//              && player.GetPosition().y > obstacle.GetPosition().y - static_cast<float>(kObstacleHeight))) {
+//        collide_with_obstacle_ = true;
+//      }
+//    }
+//    collide_with_obstacle_ = false;
+//  }
+  
+  bool PlayerManager::GetIsCollideWithObstacle() const {
+    return collide_with_obstacle_;
+  }
+
 }// namespace geometrydash

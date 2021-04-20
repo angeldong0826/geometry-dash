@@ -9,8 +9,6 @@ namespace geometrydash {
       : player_manager_(PlayerManager(top_left_coordinate, bottom_right_coordinate)) {
     top_left_coordinate_ = top_left_coordinate;
     bottom_right_coordinate_ = bottom_right_coordinate;
-
-//    GenerateObstacle();
   }
 
   void GameEngine::Display() const {
@@ -30,10 +28,10 @@ namespace geometrydash {
     // Display obstacle
     ci::Color("white");
     for (const auto &obstacle : obstacles_) {
-      if (obstacle.GetPosition().x >= kFrameMargin + kObstacleWidth/2) {
-        ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{obstacle.GetPosition().x - obstacle.GetWidth() / 2,
-                                                    obstacle.GetPosition().y - obstacle.GetHeight()},
-                                          glm::vec2{obstacle.GetPosition().x + obstacle.GetWidth() / 2,
+      if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(kObstacleWidth)/2) {
+        ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2,
+                                                    obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())},
+                                          glm::vec2{obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2,
                                                     obstacle.GetPosition().y}), static_cast<float>(kObstacleBorderWidth));
       }
     }
@@ -45,9 +43,9 @@ namespace geometrydash {
     players_.SetPosition(players_.GetPosition() + players_.GetVelocity());
     player_manager_.CollidesWithBoundary(players_);
 
-    if (advancement_tracker_ == kObstacleSpawningFrequency) {
+    if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound,kObstacleSpawningFrequencyUpperBound) 
+        || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
       GenerateObstacle();
-      advancement_tracker_ = 0;
     }
     
     for (auto& obstacle : obstacles_) {
@@ -57,6 +55,7 @@ namespace geometrydash {
 
   void GameEngine::GenerateObstacle() {
     obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity, kObstacleHeight, kObstacleWidth);
+    advancement_tracker_ = 0;
   }
 
   std::vector<Obstacle> GameEngine::GetObstacles() const {
@@ -73,6 +72,10 @@ namespace geometrydash {
 
   void GameEngine::Jump() {
     players_.SetVelocity(glm::vec2{0, kPlayerJumpFactor});
+  }
+  
+  bool GameEngine::GetIsCollision() const {
+    return is_collision_;
   }
 
 }// namespace geometrydash

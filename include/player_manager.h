@@ -56,10 +56,18 @@ namespace geometrydash {
      */
     void CollidesWithBoundary(Player& player);
     
+    /**
+     * Method that determines whether player has collided with obstacle/lost the game.
+     * 
+     * @param player 
+     * @return true if collided false otherwise
+     */
+    bool IsCollideWithObstacle(Player& player);
+    
   private:
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
-    const size_t kJumpDistance = 200; // player vertical jump distance
+    const size_t kJumpDistance = 250; // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
 
     glm::vec2 top_left_coordinate_;      // top left corner of game frame

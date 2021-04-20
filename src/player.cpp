@@ -21,14 +21,14 @@ namespace geometrydash {
   glm::vec2 Player::GetVelocity() const {
     return velocity_;
   }
-  
-  void Player::SetPosition(glm::vec2 position) {
+
+  void Player::SetPosition(const glm::vec2 &position) {
     position_ = position;
   }
-  void Player::SetVelocity(glm::vec2 velocity) {
+  void Player::SetVelocity(const glm::vec2 &velocity) {
     velocity_ = velocity;
   }
-  
+
   //  cinder::geom::Source Player::GetShape() const {
   //    return shape_;
   //  }

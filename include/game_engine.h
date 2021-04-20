@@ -60,28 +60,35 @@ namespace geometrydash {
 
   private:
     // game frame attributes
-    const size_t kContainerBorderWidth = 5;// border width of container
+    const size_t kContainerBorderWidth = 5;           // border width of container
+    const size_t kWindowLength = 1300;                // display window length
+    const size_t kWindowWidth = 700;                  // display window width
+    const size_t kFrameMargin = 100;                  // frame margin
+    const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
+
+    // player attributes
+    const size_t kPlayerWidth = 40;       // player width
+    const double kPlayerJumpFactor = -7.0;// factor that player jumps by
+    const glm::vec2 player_starting_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
+                                                 kLinePosition - kPlayerWidth / 2};// player starting position
+    const glm::vec2 player_starting_velocity_ = glm::vec2{0, 0};                   // player starting velocity
+
+    // obstacle attributes
+    const size_t kObstacleSpawningFrequency = 70;                                      // obstacle spawning frequency
+    const size_t kObstacleBorderWidth = 2;                                             // obstacle border width
+    const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3, kLinePosition};// position to spawn obstacles at
+    const glm::vec2 kObstacleVelocity = {-2, 0};                                       // velocity obstacles move at
+    const size_t kObstacleHeight = 100;                                                // obstacle height
+    const size_t kObstacleWidth = 40;                                                  // obstacle width
+
+    Player players_ = Player(player_starting_position_, player_starting_velocity_);// instance of player
+    PlayerManager player_manager_;                                                 // instance of player manager for calculation purpose
+    std::vector<Obstacle> obstacles_;                                              // vector of obstacles in game
 
     glm::vec2 top_left_coordinate_;    // top left corner of container
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
 
-    const size_t kWindowLength = 1300;                // display window length
-    const size_t kWindowWidth = 700;                  // display window width
-    const size_t kPlayerWidth = 40;                   // player width
-    const size_t kFrameMargin = 100;                  // frame margin
-    const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
-    const double kJumpFactor = -10.0; // factor that player jumps by
-
-    const glm::vec2 starting_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
-                                          kLinePosition - kPlayerWidth / 2};// player starting position
-    const glm::vec2 starting_velocity_ = glm::vec2{0, 0};               // player starting velocity
-
-    Player player_ = Player(starting_position_, starting_velocity_);// instance of player
-    PlayerManager player_manager_; // instance of player manager for calculation purposes
-
     size_t advancement_tracker_;// tracks number of advancement
-
-    std::vector<Obstacle> obstacle_;// vector of obstacles in game
   };
 
 }// namespace geometrydash

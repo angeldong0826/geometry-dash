@@ -33,12 +33,13 @@ namespace geometrydash {
 //    ci::Color GetColor() const;
     
     // Setter methods
-    void SetPosition(glm::vec2 position);
-    void SetVelocity(glm::vec2 velocity);
+    void SetPosition(const glm::vec2& position);
+    void SetVelocity(const glm::vec2& velocity);
     
   private:
     glm::vec2 position_;// player position
     glm::vec2 velocity_;// player velocity
+    
 //    cinder::geom::Source shape_; // player shape
 //    ci::Color color_;   // player color
   };

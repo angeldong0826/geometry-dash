@@ -48,6 +48,7 @@ namespace geometrydash {
   void PlayerManager::CollidesWithBoundary(Player &player) {
     if (IsCollideWithTop(player)) {
       CalculatePostTopCollisionVelocity(player);
+      
     } else if (IsCollideWithBottom(player)) {
       CalculatePostBottomCollisionVelocity(player);
     }

@@ -3,6 +3,7 @@
 #include "cinder/gl/gl.h"
 #include "obstacle.h"
 #include "player.h"
+#include "player_manager.h"
 
 namespace geometrydash {
 
@@ -52,6 +53,9 @@ namespace geometrydash {
      */
     std::vector<Obstacle> GetObstacles() const;
 
+    /**
+     * Method that executes on player when jump key is pressed.
+     */
     void Jump();
 
   private:
@@ -73,6 +77,7 @@ namespace geometrydash {
     const glm::vec2 starting_velocity_ = glm::vec2{0, 0};               // player starting velocity
 
     Player player_ = Player(starting_position_, starting_velocity_);// instance of player
+    PlayerManager player_manager_; // instance of player manager for calculation purposes
 
     size_t advancement_tracker_;// tracks number of advancement
 

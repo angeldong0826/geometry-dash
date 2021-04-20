@@ -5,7 +5,8 @@
 namespace geometrydash {
 
   GameEngine::GameEngine(const glm::vec2 &top_left_coordinate,
-                         const glm::vec2 &bottom_right_coordinate) {
+                         const glm::vec2 &bottom_right_coordinate) 
+      : player_manager_(PlayerManager(top_left_coordinate, bottom_right_coordinate)) {
     top_left_coordinate_ = top_left_coordinate;
     bottom_right_coordinate_ = bottom_right_coordinate;
 
@@ -29,9 +30,10 @@ namespace geometrydash {
 
   void GameEngine::AdvanceOneFrame() {
     advancement_tracker_++;
-
-    glm::vec2 position = player_.GetPosition();
-    player_.SetPosition(position + player_.GetVelocity());
+    
+    player_.SetPosition(player_.GetPosition() + player_.GetVelocity());
+    
+    player_manager_.CollidesWithBoundary(player_);
   }
 
   void GameEngine::GenerateObstacle() {

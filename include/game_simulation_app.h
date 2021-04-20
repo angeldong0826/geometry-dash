@@ -5,7 +5,7 @@
 
 namespace geometrydash {
 
-/**
+  /**
  * An app for visualizing the game of Geometry Dash.
  */
   class GeometryDashApp : public ci::app::App {
@@ -33,13 +33,13 @@ namespace geometrydash {
     void keyDown(cinder::app::KeyEvent event) override;
 
   private:
-    const size_t kWindowLength = 1300;    // display window length
-    const size_t kWindowWidth = 700;      // display window width
+    const size_t kWindowLength = 1300;// display window length
+    const size_t kWindowWidth = 700;  // display window width
     const size_t kFrameMargin = 100;  // frame margin
 
     GameEngine game_frame_ =
             GameEngine(glm::vec2(kFrameMargin, kFrameMargin),
-                    glm::vec2(kWindowLength - kFrameMargin, kWindowWidth - kFrameMargin));  // instance of game frame
+                                    glm::vec2(kWindowLength - kFrameMargin, kWindowWidth - kFrameMargin));// instance of game frame
   };
 
-}  // namespace idealgas
+}// namespace geometrydash

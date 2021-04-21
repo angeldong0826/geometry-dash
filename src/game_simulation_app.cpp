@@ -14,13 +14,13 @@ namespace geometrydash {
 
   void GeometryDashApp::update() {
     AppBase::update();
-    
+
     game_frame_.AdvanceOneFrame();
   }
 
   void GeometryDashApp::keyDown(cinder::app::KeyEvent event) {
 
-    if(event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
+    if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
       game_frame_.Jump();
     }
   }

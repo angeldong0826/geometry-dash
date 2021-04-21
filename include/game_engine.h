@@ -48,15 +48,19 @@ namespace geometrydash {
     void GenerateObstacle();
 
     /**
-     * Getter method to retrieve vector of obstacles in game.
-     * @return vector of obstacles in game
-     */
-    std::vector<Obstacle> GetObstacles() const;
-
-    /**
      * Method that executes on player when jump key is pressed.
      */
     void Jump();
+    
+    /**
+     * Method that updates obstacles.
+     */
+    void UpdateObstacle();
+    
+    /**
+     * Method that updates player.
+     */
+    void UpdatePlayer();
 
   private:
     // game frame attributes
@@ -74,15 +78,17 @@ namespace geometrydash {
     const glm::vec2 player_starting_velocity_ = glm::vec2{0, 0};                   // player starting velocity
 
     // obstacle attributes
-    const size_t kObstacleSpawningFrequencyLowerBound = 50; // obstacle spawning frequency lower bound
-    const size_t kObstacleSpawningFrequencyUpperBound = 100; // obstacle spawning frequency upper bound
-    const size_t kObstacleBorderWidth = 2;                                             // obstacle border width
-    const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3, kLinePosition};// position to spawn obstacles at
-    const glm::vec2 kObstacleVelocity = {-2, 0};                                       // velocity obstacles move at
-    const size_t kObstacleHeight = 100;                                                // obstacle height
-    const size_t kObstacleWidth = 40;                                                  // obstacle width
-    
-    const glm::vec2 center_ = {650, 350}; // center of game
+    const size_t kObstacleSpawningFrequencyLowerBound = 50;                              // obstacle spawning frequency lower bound
+    const size_t kObstacleSpawningFrequencyUpperBound = 100;                             // obstacle spawning frequency upper bound
+    const size_t kObstacleBorderWidth = 2;                                               // obstacle border width
+    const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at
+    const glm::vec2 kObstacleVelocity = {-3, 0};                                         // velocity obstacles move at
+    const size_t kObstacleHeightHigh = 130;                                                  // obstacle height upper bound
+    const size_t kObstacleHeightLow = 50; // obstacle height lower bound
+    const size_t kObstacleWidthLow = 30;                                                    // obstacle width lower bound
+    const size_t kObstacleWidthHigh = 55;                                                    // obstacle width upper bound
+
+    const glm::vec2 center_ = {650, 350};// center of game
 
     Player players_ = Player(player_starting_position_, player_starting_velocity_);// instance of player
     PlayerManager player_manager_;                                                 // instance of player manager for calculation purpose
@@ -92,8 +98,6 @@ namespace geometrydash {
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
 
     size_t advancement_tracker_;// tracks number of advancement
-    
-    bool is_collision_ = player_manager_.GetIsGameOver();
   };
 
 }// namespace geometrydash

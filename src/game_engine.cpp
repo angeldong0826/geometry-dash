@@ -5,8 +5,7 @@
 namespace geometrydash {
 
   GameEngine::GameEngine(const glm::vec2 &top_left_coordinate,
-                         const glm::vec2 &bottom_right_coordinate)
-      : player_manager_(PlayerManager(top_left_coordinate, bottom_right_coordinate)) {
+                         const glm::vec2 &bottom_right_coordinate) {
     top_left_coordinate_ = top_left_coordinate;
     bottom_right_coordinate_ = bottom_right_coordinate;
   }
@@ -29,7 +28,7 @@ namespace geometrydash {
       // Display obstacle
       ci::Color("white");
       for (const auto &obstacle : obstacles_) {
-        if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(kObstacleWidth) / 2) {
+        if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(obstacle.GetWidth()) / 2) {
           ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2,
                                                       obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())},
                                             glm::vec2{obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2,
@@ -38,7 +37,7 @@ namespace geometrydash {
         }
       }
     } else if (player_manager_.GetIsGameOver()) {
-      ci::gl::drawStringCentered("GAME OVER", center_);
+      ci::gl::drawStringCentered("GAME OVER. YA DEAD.", center_, "white", ci::Font("Helvetica", 24));
     }
   }
 
@@ -48,12 +47,10 @@ namespace geometrydash {
         GenerateObstacle();
       }
 
-      players_.SetPosition(players_.GetPosition() + players_.GetVelocity());
       player_manager_.CollidesWithBoundary(players_);
-
-      for (auto &obstacle : obstacles_) {
-        obstacle.SetPosition(obstacle.GetPosition() + obstacle.GetVelocity());
-      }
+      
+      UpdatePlayer();
+      UpdateObstacle();
 
       player_manager_.IsGameOver(players_, obstacles_);// check if game is over
 
@@ -62,12 +59,10 @@ namespace geometrydash {
   }
 
   void GameEngine::GenerateObstacle() {
-    obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity, kObstacleHeight, kObstacleWidth);
+    obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity, 
+                            RandomNumberGenerator(kObstacleHeightLow, kObstacleHeightHigh), 
+                            RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh));
     advancement_tracker_ = 0;
-  }
-
-  std::vector<Obstacle> GameEngine::GetObstacles() const {
-    return obstacles_;
   }
 
   size_t GameEngine::RandomNumberGenerator(size_t lower_bound,
@@ -80,6 +75,16 @@ namespace geometrydash {
 
   void GameEngine::Jump() {
     players_.SetVelocity(glm::vec2{0, kPlayerJumpFactor});
+  }
+  
+  void GameEngine::UpdateObstacle() {
+    for (auto &obstacle : obstacles_) {
+      obstacle.SetPosition(obstacle.GetPosition() + obstacle.GetVelocity());
+    }
+  }
+  
+  void GameEngine::UpdatePlayer() {
+    players_.SetPosition(players_.GetPosition() + players_.GetVelocity());
   }
 
 }// namespace geometrydash

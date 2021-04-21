@@ -29,11 +29,11 @@ namespace geometrydash {
   size_t Obstacle::GetWidth() const {
     return width_;
   }
-  
+
   void Obstacle::SetPosition(const glm::vec2 &position) {
     position_ = position;
   }
-  
+
   void Obstacle::SetVelocity(const glm::vec2 &velocity) {
     velocity_ = velocity;
   }

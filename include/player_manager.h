@@ -10,15 +10,6 @@ namespace geometrydash {
   class PlayerManager {
   public:
     /**
-     * Constructor that initializes game frame and takes in frame boundaries.
-     * 
-     * @param top_left_coordinate 
-     * @param bottom_right_coordinate 
-     */
-    PlayerManager(const glm::vec2 &top_left_coordinate,
-                  const glm::vec2 &bottom_right_coordinate);
-
-    /**
      * Method that determines whether or not player collides with top boundary.
      * 
      * @param player 
@@ -62,22 +53,19 @@ namespace geometrydash {
      * @param player 
      * @return true if collided false otherwise
      */
-    void IsGameOver(Player &player, std::vector<Obstacle>& obstacles);
-    
+    void IsGameOver(Player &player, std::vector<Obstacle> &obstacles);
+
     // Getter methods
     bool GetIsGameOver() const;
 
   private:
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
-    const size_t kJumpDistance = 250;                 // player vertical jump distance
+    const size_t kJumpDistance = 260;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
-    const size_t kObstacleHeight = 100;               // obstacle height
-    const size_t kObstacleWidth = 40;                 // obstacle width
-    
-    bool game_over_ = false; // game status
+//    const size_t kObstacleHeight = 100;               // obstacle height
+//    const size_t kObstacleWidth = 40;                 // obstacle width
 
-    glm::vec2 top_left_coordinate_;    // top left corner of game frame
-    glm::vec2 bottom_right_coordinate_;// bottom right corner of game frame
+    bool game_over_ = false;// game status
   };
 }// namespace geometrydash

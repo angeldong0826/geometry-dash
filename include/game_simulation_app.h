@@ -4,7 +4,6 @@
 #include "game_engine.h"
 
 namespace geometrydash {
-
   /**
  * An app for visualizing the game of Geometry Dash.
  */

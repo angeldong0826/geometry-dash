@@ -8,7 +8,7 @@ namespace geometrydash {
   void GeometryDashApp::draw() {
     ci::Color background_color("black");
     ci::gl::clear(background_color);
-    
+
     game_frame_.Display();
   }
 

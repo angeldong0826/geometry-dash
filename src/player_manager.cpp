@@ -5,26 +5,26 @@ namespace geometrydash {
   bool PlayerManager::IsCollideWithTop(Player &player) const {
     if ((player.GetVelocity().y < 0) && (player.GetPosition().y <= 
          static_cast<float>(kLinePosition) - static_cast<float>(kJumpDistance))) {
-      return true;
+      return true; // if collide
     }
 
-    return false;
+    return false; // if not collide
   }
 
   bool PlayerManager::IsCollideWithBottom(Player &player) const {
     if ((player.GetVelocity().y > 0) && (player.GetPosition().y + 
          static_cast<float>(kPlayerWidth) / 2 >= static_cast<float>(kLinePosition))) {
-      return true;
+      return true; // if collide
     }
 
-    return false;
+    return false; // if not collide
   }
 
   void PlayerManager::CalculatePostTopCollisionVelocity(Player &player) {
     // Separate out player's x and y velocities
     double x_velocity = player.GetVelocity().x;
     double y_velocity = player.GetVelocity().y;
-    y_velocity *= -1;
+    y_velocity *= -1; // flips/negates player velocity in y-direction
 
     player.SetVelocity(glm::vec2(x_velocity, y_velocity));
   }
@@ -33,16 +33,16 @@ namespace geometrydash {
     // Separate out player's x and y velocities
     double x_velocity = player.GetVelocity().x;
     double y_velocity = player.GetVelocity().y;
-    y_velocity *= 0;
+    y_velocity *= 0; // sets y-velocity to 0, doesn't bounce back when reach bottom
 
-    player.SetVelocity(glm::vec2(x_velocity, y_velocity));
+    player.SetVelocity(glm::vec2(x_velocity, y_velocity)); // set new velocity
   }
 
   void PlayerManager::CollidesWithBoundary(Player &player) {
-    if (IsCollideWithTop(player)) {
+    if (IsCollideWithTop(player)) { // checks if collide on top
       CalculatePostTopCollisionVelocity(player);
 
-    } else if (IsCollideWithBottom(player)) {
+    } else if (IsCollideWithBottom(player)) { // otherwise checks if collide on bottom
       CalculatePostBottomCollisionVelocity(player);
     }
   }
@@ -57,6 +57,7 @@ namespace geometrydash {
 //        game_over_ = true;
 //      }
   
+      // if player crashes into any obstacle
       if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >= (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2))
                                      && ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) <= obstacle.GetPosition().y) 
                                      && (player.GetPosition().y > obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight()))

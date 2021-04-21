@@ -6,7 +6,6 @@
 #include "player_manager.h"
 
 namespace geometrydash {
-
   /**
  * The frame in which all of the game happens in. This class
  * stores all of the obstacles and player and updates them on each frame of the simulation.
@@ -64,7 +63,7 @@ namespace geometrydash {
 
   private:
     // game frame attributes
-    const size_t kContainerBorderWidth = 5;           // border width of container
+    const size_t kFrameBorderWidth = 5;           // border width of container
     const size_t kWindowLength = 1300;                // display window length
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kFrameMargin = 100;                  // frame margin

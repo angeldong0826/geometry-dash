@@ -62,20 +62,20 @@ namespace geometrydash {
      * @param player 
      * @return true if collided false otherwise
      */
-//    void IsCollideWithObstacle(Player &player, std::vector<Obstacle>& obstacles);
+    void IsGameOver(Player &player, std::vector<Obstacle>& obstacles);
     
     // Getter methods
-    bool GetIsCollideWithObstacle() const;
+    bool GetIsGameOver() const;
 
   private:
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
     const size_t kJumpDistance = 250;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
-//    const size_t kObstacleHeight = 100;               // obstacle height
-//    const size_t kObstacleWidth = 40;                 // obstacle width
+    const size_t kObstacleHeight = 100;               // obstacle height
+    const size_t kObstacleWidth = 40;                 // obstacle width
     
-    bool collide_with_obstacle_; // whether player has collided with obstacle
+    bool game_over_ = false; // game status
 
     glm::vec2 top_left_coordinate_;    // top left corner of game frame
     glm::vec2 bottom_right_coordinate_;// bottom right corner of game frame

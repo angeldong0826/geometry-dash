@@ -57,9 +57,6 @@ namespace geometrydash {
      * Method that executes on player when jump key is pressed.
      */
     void Jump();
-    
-    // Getter methods
-    bool GetIsCollision() const;
 
   private:
     // game frame attributes
@@ -77,7 +74,6 @@ namespace geometrydash {
     const glm::vec2 player_starting_velocity_ = glm::vec2{0, 0};                   // player starting velocity
 
     // obstacle attributes
-//    const size_t kObstacleSpawningFrequency = 70;                                      // obstacle spawning frequency
     const size_t kObstacleSpawningFrequencyLowerBound = 50; // obstacle spawning frequency lower bound
     const size_t kObstacleSpawningFrequencyUpperBound = 100; // obstacle spawning frequency upper bound
     const size_t kObstacleBorderWidth = 2;                                             // obstacle border width
@@ -85,6 +81,8 @@ namespace geometrydash {
     const glm::vec2 kObstacleVelocity = {-2, 0};                                       // velocity obstacles move at
     const size_t kObstacleHeight = 100;                                                // obstacle height
     const size_t kObstacleWidth = 40;                                                  // obstacle width
+    
+    const glm::vec2 center_ = {650, 350}; // center of game
 
     Player players_ = Player(player_starting_position_, player_starting_velocity_);// instance of player
     PlayerManager player_manager_;                                                 // instance of player manager for calculation purpose
@@ -95,7 +93,7 @@ namespace geometrydash {
 
     size_t advancement_tracker_;// tracks number of advancement
     
-    bool is_collision_ = player_manager_.GetIsCollideWithObstacle();
+    bool is_collision_ = player_manager_.GetIsGameOver();
   };
 
 }// namespace geometrydash

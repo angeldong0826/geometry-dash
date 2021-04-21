@@ -12,44 +12,52 @@ namespace geometrydash {
   }
 
   void GameEngine::Display() const {
-    // Display game frame
-    ci::gl::color(ci::Color("white"));
-    ci::gl::drawStrokedRect(
-            ci::Rectf(top_left_coordinate_, bottom_right_coordinate_), static_cast<float>(kContainerBorderWidth));
+    if (!player_manager_.GetIsGameOver()) {
+      // Display game frame
+      ci::gl::color(ci::Color("white"));
+      ci::gl::drawStrokedRect(
+              ci::Rectf(top_left_coordinate_, bottom_right_coordinate_), static_cast<float>(kContainerBorderWidth));
 
-    // Display obstacle, player, and line
-    ci::Color("white");
-    ci::gl::drawLine(glm::vec2{kFrameMargin, kLinePosition}, glm::vec2{kWindowLength - kFrameMargin, kLinePosition});
-    ci::gl::drawSolidRect(ci::Rectf(glm::vec2{players_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
-                                              players_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2},
-                                    glm::vec2{players_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
-                                              players_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2}));
+      // Display player, and line
+      ci::Color("white");
+      ci::gl::drawLine(glm::vec2{kFrameMargin, kLinePosition}, glm::vec2{kWindowLength - kFrameMargin, kLinePosition});
+      ci::gl::drawSolidRect(ci::Rectf(glm::vec2{players_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
+                                                players_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2},
+                                      glm::vec2{players_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
+                                                players_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2}));
 
-    // Display obstacle
-    ci::Color("white");
-    for (const auto &obstacle : obstacles_) {
-      if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(kObstacleWidth)/2) {
-        ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2,
-                                                    obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())},
-                                          glm::vec2{obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2,
-                                                    obstacle.GetPosition().y}), static_cast<float>(kObstacleBorderWidth));
+      // Display obstacle
+      ci::Color("white");
+      for (const auto &obstacle : obstacles_) {
+        if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(kObstacleWidth) / 2) {
+          ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2,
+                                                      obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())},
+                                            glm::vec2{obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2,
+                                                      obstacle.GetPosition().y}),
+                                  static_cast<float>(kObstacleBorderWidth));
+        }
       }
+    } else if (player_manager_.GetIsGameOver()) {
+      ci::gl::drawStringCentered("GAME OVER", center_);
     }
   }
 
   void GameEngine::AdvanceOneFrame() {
-    advancement_tracker_++;
+    if (!player_manager_.GetIsGameOver()) {
+      if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound, kObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
+        GenerateObstacle();
+      }
 
-    players_.SetPosition(players_.GetPosition() + players_.GetVelocity());
-    player_manager_.CollidesWithBoundary(players_);
+      players_.SetPosition(players_.GetPosition() + players_.GetVelocity());
+      player_manager_.CollidesWithBoundary(players_);
 
-    if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound,kObstacleSpawningFrequencyUpperBound) 
-        || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
-      GenerateObstacle();
-    }
-    
-    for (auto& obstacle : obstacles_) {
-      obstacle.SetPosition(obstacle.GetPosition() + obstacle.GetVelocity());
+      for (auto &obstacle : obstacles_) {
+        obstacle.SetPosition(obstacle.GetPosition() + obstacle.GetVelocity());
+      }
+
+      player_manager_.IsGameOver(players_, obstacles_);// check if game is over
+
+      advancement_tracker_++;// increments advance one frame every time it is called
     }
   }
 
@@ -72,10 +80,6 @@ namespace geometrydash {
 
   void GameEngine::Jump() {
     players_.SetVelocity(glm::vec2{0, kPlayerJumpFactor});
-  }
-  
-  bool GameEngine::GetIsCollision() const {
-    return is_collision_;
   }
 
 }// namespace geometrydash

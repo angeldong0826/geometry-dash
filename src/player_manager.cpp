@@ -53,19 +53,20 @@ namespace geometrydash {
     }
   }
 
-//  void PlayerManager::IsCollideWithObstacle(Player &player, std::vector<Obstacle>& obstacles) {
-//    for (auto & obstacle : obstacles) {
-//      if ((player.GetPosition().x + static_cast<float>(kPlayerWidth)/2 >= obstacle.GetPosition().x - static_cast<float>(kObstacleWidth)/2) 
-//          && (player.GetPosition().y < obstacle.GetPosition().y 
-//              && player.GetPosition().y > obstacle.GetPosition().y - static_cast<float>(kObstacleHeight))) {
-//        collide_with_obstacle_ = true;
-//      }
-//    }
-//    collide_with_obstacle_ = false;
-//  }
+  void PlayerManager::IsGameOver(Player &player, std::vector<Obstacle>& obstacles) {
+    
+    for (Obstacle& obstacle : obstacles) {
+      if (((player.GetPosition().x + static_cast<float>(kPlayerWidth)/2) >= (obstacle.GetPosition().x - static_cast<float>(kObstacleWidth)/2)) 
+          && ((player.GetPosition().y + static_cast<float>(kPlayerWidth)/2) <= obstacle.GetPosition().y 
+              && player.GetPosition().y >= obstacle.GetPosition().y - static_cast<float>(kObstacleHeight))) {
+//        std::cout << "hi" << std::endl;
+        game_over_ = true;
+      }
+    }
+  }
   
-  bool PlayerManager::GetIsCollideWithObstacle() const {
-    return collide_with_obstacle_;
+  bool PlayerManager::GetIsGameOver() const {
+    return game_over_;
   }
 
 }// namespace geometrydash

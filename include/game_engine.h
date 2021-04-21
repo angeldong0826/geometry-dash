@@ -51,12 +51,12 @@ namespace geometrydash {
      * Method that executes on player when jump key is pressed.
      */
     void Jump();
-    
+
     /**
      * Method that updates obstacles.
      */
     void UpdateObstacle();
-    
+
     /**
      * Method that updates player.
      */
@@ -73,9 +73,9 @@ namespace geometrydash {
     // player attributes
     const size_t kPlayerWidth = 40;       // player width
     const double kPlayerJumpFactor = -7.0;// factor that player jumps by
-    const glm::vec2 player_starting_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
-                                                 kLinePosition - kPlayerWidth / 2};// player starting position
-    const glm::vec2 player_starting_velocity_ = glm::vec2{0, 0};                   // player starting velocity
+    const glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
+                                        kLinePosition - kPlayerWidth / 2};// player starting position
+    const glm::vec2 player_velocity_ = glm::vec2{0, 0};                   // player starting velocity
 
     // obstacle attributes
     const size_t kObstacleSpawningFrequencyLowerBound = 50;                              // obstacle spawning frequency lower bound
@@ -83,16 +83,16 @@ namespace geometrydash {
     const size_t kObstacleBorderWidth = 2;                                               // obstacle border width
     const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at
     const glm::vec2 kObstacleVelocity = {-3, 0};                                         // velocity obstacles move at
-    const size_t kObstacleHeightHigh = 130;                                                  // obstacle height upper bound
-    const size_t kObstacleHeightLow = 50; // obstacle height lower bound
-    const size_t kObstacleWidthLow = 30;                                                    // obstacle width lower bound
-    const size_t kObstacleWidthHigh = 55;                                                    // obstacle width upper bound
+    const size_t kObstacleHeightHigh = 130;                                              // obstacle height upper bound
+    const size_t kObstacleHeightLow = 50;                                                // obstacle height lower bound
+    const size_t kObstacleWidthLow = 30;                                                 // obstacle width lower bound
+    const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
 
     const glm::vec2 center_ = {650, 350};// center of game
 
-    Player players_ = Player(player_starting_position_, player_starting_velocity_);// instance of player
-    PlayerManager player_manager_;                                                 // instance of player manager for calculation purpose
-    std::vector<Obstacle> obstacles_;                                              // vector of obstacles in game
+    Player players_ = Player(player_position_, player_velocity_);// instance of player
+    PlayerManager player_manager_;                               // instance of player manager for calculation purpose
+    std::vector<Obstacle> obstacles_;                            // vector of obstacles in game
 
     glm::vec2 top_left_coordinate_;    // top left corner of container
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container

@@ -8,9 +8,6 @@ namespace geometrydash {
                          const glm::vec2 &bottom_right_coordinate) {
     top_left_coordinate_ = top_left_coordinate;
     bottom_right_coordinate_ = bottom_right_coordinate;
-    
-//    Obstacle obstacle(glm::vec2{600, kLinePosition},glm::vec2{-2,0}, 50, 30);
-//    obstacles_.push_back(obstacle);
   }
 
   void GameEngine::Display() const {

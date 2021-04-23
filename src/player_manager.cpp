@@ -36,6 +36,7 @@ namespace geometrydash {
     y_velocity *= 0; // sets y-velocity to 0, doesn't bounce back when reach bottom
 
     player.SetVelocity(glm::vec2(x_velocity, y_velocity)); // set new velocity
+    SetIsValidJump(true);
   }
 
   void PlayerManager::CollidesWithBoundary(Player &player) {
@@ -70,6 +71,12 @@ namespace geometrydash {
 
   bool PlayerManager::GetIsGameOver() const {
     return game_over_;
+  }
+  bool PlayerManager::GetIsValidJump() const {
+    return is_valid_jump_;
+  }
+  void PlayerManager::SetIsValidJump(bool state) {
+    is_valid_jump_ = state;
   }
 
 }// namespace geometrydash

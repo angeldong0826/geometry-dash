@@ -56,7 +56,11 @@ namespace geometrydash {
     void IsGameOver(Player &player, std::vector<Obstacle> &obstacles);
 
     // Getter methods
-    bool GetIsGameOver() const;
+    bool GetIsGameOver() const; 
+    bool GetIsValidJump() const;
+    
+    //Setter methods
+    void SetIsValidJump(bool state);
 
   private:
     const size_t kWindowWidth = 700;                  // display window width
@@ -65,5 +69,6 @@ namespace geometrydash {
     const size_t kPlayerWidth = 40;                   // player width
 
     bool game_over_ = false;// game status
+    bool is_valid_jump_ = true; // to ensure single jumps
   };
 }// namespace geometrydash

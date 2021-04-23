@@ -88,7 +88,7 @@ namespace geometrydash {
     const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
 
     const glm::vec2 center_ = {650, 350};// center of game
-
+    
     Player players_ = Player(player_position_, player_velocity_);// instance of player
     PlayerManager player_manager_;                               // instance of player manager for calculation purpose
     std::vector<Obstacle> obstacles_;                            // vector of obstacles in game

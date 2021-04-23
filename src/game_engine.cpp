@@ -67,7 +67,7 @@ namespace geometrydash {
                             RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh));
     advancement_tracker_ = 0;// reset tracker every time an obstacle is generated
   }
-
+  
   size_t GameEngine::RandomNumberGenerator(size_t lower_bound,
                                            size_t upper_bound) {
     size_t random_number_ =
@@ -77,7 +77,10 @@ namespace geometrydash {
   }
 
   void GameEngine::Jump() {
-    players_.SetVelocity(glm::vec2{0, kPlayerJumpFactor});
+    if (player_manager_.GetIsValidJump()) {
+      players_.SetVelocity(glm::vec2{0, kPlayerJumpFactor});
+      player_manager_.SetIsValidJump(false);
+    }
   }
 
   void GameEngine::UpdateObstacle() {

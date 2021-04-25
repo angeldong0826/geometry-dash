@@ -71,7 +71,7 @@ namespace geometrydash {
 
     // player attributes
     const size_t kPlayerWidth = 40;       // player width
-    const double kPlayerJumpFactor = -7.0;// factor that player jumps by
+    const double kPlayerJumpFactor = -8.0;// factor that player jumps by
     const glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
                                         kLinePosition - kPlayerWidth / 2};// player starting position
     const glm::vec2 player_velocity_ = glm::vec2{0, 0};                   // player starting velocity
@@ -79,7 +79,6 @@ namespace geometrydash {
     // obstacle attributes
     const size_t kObstacleSpawningFrequencyLowerBound = 50;                              // obstacle spawning frequency lower bound
     const size_t kObstacleSpawningFrequencyUpperBound = 100;                             // obstacle spawning frequency upper bound
-    const size_t kObstacleBorderWidth = 2;                                               // obstacle border width
     const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at
     const glm::vec2 kObstacleVelocity = {-3, 0};                                         // velocity obstacles move at
     const size_t kObstacleHeightHigh = 130;                                              // obstacle height upper bound

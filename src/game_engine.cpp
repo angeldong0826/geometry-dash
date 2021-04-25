@@ -29,14 +29,10 @@ namespace geometrydash {
 
       // Display obstacle
       ci::Color("white");
-      for (const auto &obstacle : obstacles_) {
+      for (Obstacle obstacle : obstacles_) {
         // if obstacle is moving in frame
         if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(obstacle.GetWidth()) / 2) {
-          ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2,
-                                                      obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())},
-                                            glm::vec2{obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2,
-                                                      obstacle.GetPosition().y}),
-                                  static_cast<float>(kObstacleBorderWidth));
+          obstacle.DrawObstacle();
         }
       }
     } else if (player_manager_.GetIsGameOver()) {// if game is over
@@ -49,11 +45,11 @@ namespace geometrydash {
       if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound, kObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
         GenerateObstacle();// generate obstacles at random time frames
       }
-
-      player_manager_.CollidesWithBoundary(players_);// check if player collide with boundary that it can jump within
-
+      
       UpdatePlayer();  // update player position
       UpdateObstacle();// update obstacle position
+
+      player_manager_.CollidesWithBoundary(players_);// check if player collide with boundary that it can jump within
 
       player_manager_.IsGameOver(players_, obstacles_);// check if game is over
 
@@ -62,9 +58,17 @@ namespace geometrydash {
   }
 
   void GameEngine::GenerateObstacle() {
-    obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity,
-                            RandomNumberGenerator(kObstacleHeightLow, kObstacleHeightHigh),
-                            RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh));
+    size_t rand = RandomNumberGenerator(1, 10);
+    if (rand < 5) {
+      obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity,
+                              RandomNumberGenerator(kObstacleHeightLow, kObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle");
+    } else {
+      obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity,
+                              RandomNumberGenerator(kObstacleHeightLow, kObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle");
+    }
+    
     advancement_tracker_ = 0;// reset tracker every time an obstacle is generated
   }
   

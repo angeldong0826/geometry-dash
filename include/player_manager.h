@@ -65,7 +65,7 @@ namespace geometrydash {
   private:
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
-    const size_t kJumpDistance = 260;                 // player vertical jump distance
+    const size_t kJumpDistance = 290;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
 
     bool game_over_ = false;// game status

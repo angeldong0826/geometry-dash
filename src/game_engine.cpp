@@ -19,7 +19,7 @@ namespace geometrydash {
               ci::Rectf(top_left_coordinate_, bottom_right_coordinate_), static_cast<float>(kFrameBorderWidth));
 
       // Display player and line
-      ci::Color("white");
+      ci::gl::color(ci::Color("white"));
       ci::gl::drawLine(glm::vec2{kFrameMargin, kLinePosition}, glm::vec2{kWindowLength - kFrameMargin, kLinePosition});
 
       ci::gl::drawSolidRect(ci::Rectf(glm::vec2{players_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
@@ -28,7 +28,6 @@ namespace geometrydash {
                                                 players_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2}));
 
       // Display obstacle
-      ci::Color("white");
       for (Obstacle obstacle : obstacles_) {
         // if obstacle is moving in frame
         if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(obstacle.GetWidth()) / 2) {
@@ -58,8 +57,8 @@ namespace geometrydash {
   }
 
   void GameEngine::GenerateObstacle() {
-    size_t rand = RandomNumberGenerator(1, 10);
-    if (rand < 5) {
+    size_t rand = RandomNumberGenerator(low_, high_);
+    if (rand < mid_) {
       obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity,
                               RandomNumberGenerator(kObstacleHeightLow, kObstacleHeightHigh),
                               RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle");

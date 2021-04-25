@@ -61,7 +61,7 @@ namespace geometrydash {
       // if player crashes into any obstacle
       if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >= (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2))
                                      && ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) <= obstacle.GetPosition().y) 
-                                     && (player.GetPosition().y > obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight()))
+                                     && ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) > obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight()))
                                      && (player.GetPosition().x <= (obstacle.GetPosition().x + static_cast<float>((static_cast<float>(kPlayerWidth)/2 + 
                                      static_cast<float>(obstacle.GetWidth())/2))))) {
         game_over_ = true;

@@ -34,6 +34,10 @@ namespace geometrydash {
           obstacle.DrawObstacle();
         }
       }
+      
+      // Display score
+      ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white",ci::Font("Helvetica", 20));
+      
     } else if (player_manager_.GetIsGameOver()) {// if game is over
       ci::gl::drawStringCentered("GAME OVER. YA DEAD.", center_, "white", ci::Font("Helvetica", 24));
     }
@@ -52,7 +56,8 @@ namespace geometrydash {
 
       player_manager_.IsGameOver(players_, obstacles_);// check if game is over
 
-      advancement_tracker_++;// increment advance one frame every time it is called
+      advancement_tracker_++;// increments advance one frame every time it is called
+      score_++;// increments player score
     }
   }
 

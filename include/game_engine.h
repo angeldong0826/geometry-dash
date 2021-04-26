@@ -63,7 +63,7 @@ namespace geometrydash {
 
   private:
     // game frame attributes
-    const size_t kFrameBorderWidth = 5;           // border width of container
+    const size_t kFrameBorderWidth = 5;               // border width of container
     const size_t kWindowLength = 1300;                // display window length
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kFrameMargin = 100;                  // frame margin
@@ -86,13 +86,16 @@ namespace geometrydash {
     const size_t kObstacleWidthLow = 30;                                                 // obstacle width lower bound
     const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
 
+    // score attributes
+    const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
+
     const glm::vec2 center_ = {650, 350};// center of game
-    
-    // random spawn purposes
+
+    // for random spawning purposes
     const size_t high_ = 10;
     const size_t low_ = 0;
     const size_t mid_ = 5;
-    
+
     Player players_ = Player(player_position_, player_velocity_);// instance of player
     PlayerManager player_manager_;                               // instance of player manager for calculation purpose
     std::vector<Obstacle> obstacles_;                            // vector of obstacles in game
@@ -101,6 +104,7 @@ namespace geometrydash {
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
 
     size_t advancement_tracker_;// tracks number of advancement
+    size_t score_;              // game score
   };
 
 }// namespace geometrydash

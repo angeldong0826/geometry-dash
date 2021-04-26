@@ -2,14 +2,6 @@
 
 namespace geometrydash {
 
-  //  Obstacle::Obstacle(const glm::vec2& position, const glm::vec2& velocity,
-  //                     const cinder::geom::Source& shape, const ci::Color& color) {
-  //    position_ = position;
-  //    velocity_ = velocity;
-  //    shape_ = shape;
-  //    color_ = color;
-  //  }
-
   Obstacle::Obstacle(const glm::vec2 &position, const glm::vec2 &velocity, const size_t height, const size_t width, std::string shape) {
     position_ = position;
     velocity_ = velocity;

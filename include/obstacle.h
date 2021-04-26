@@ -9,15 +9,6 @@ namespace geometrydash {
    */
   class Obstacle {
   public:
-    //    /**
-    //     * Constructor that initializes obstacle attributes.
-    //     *
-    //     * @param position of obstacle
-    //     * @param velocity of obstacle
-    //     * @param shape of obstacle
-    //     * @param color of obstacle
-    //     */
-    //    Obstacle(const glm::vec2& position, const glm::vec2& velocity, const cinder::geom::Source& shape, const ci::Color& color);
 
     /**
      * Constructor that initializes obstacle attributes.
@@ -28,7 +19,7 @@ namespace geometrydash {
      * @param width of obstacle
      */
     Obstacle(const glm::vec2 &position, const glm::vec2 &velocity, const size_t height, const size_t width, std::string shape);
-    
+
     /**
      * Method that draws obstacles.
      */
@@ -47,7 +38,7 @@ namespace geometrydash {
 
   private:
     // rectangular obstacle attributes
-    const size_t kObstacleBorderWidth = 2;                                               // obstacle border width
+    const size_t kObstacleBorderWidth = 2;// obstacle border width
 
     glm::vec2 position_;// position of obstacle
     glm::vec2 velocity_;// velocity of obstacle

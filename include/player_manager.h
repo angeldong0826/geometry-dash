@@ -71,4 +71,5 @@ namespace geometrydash {
     bool game_over_ = false;// game status
     bool is_valid_jump_ = true; // to ensure single jumps
   };
+  
 }// namespace geometrydash

@@ -20,12 +20,14 @@ namespace geometrydash {
 
       // Display player and line
       ci::gl::color(ci::Color("white"));
-      ci::gl::drawLine(glm::vec2{kFrameMargin, kLinePosition}, glm::vec2{kWindowLength - kFrameMargin, kLinePosition});
+      ci::gl::drawLine(kLineLeft, kLineRight);
 
-      ci::gl::drawSolidRect(ci::Rectf(glm::vec2{players_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
-                                                players_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2},
-                                      glm::vec2{players_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
-                                                players_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2}));
+      glm::vec2 player_top_left_corner = {players_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
+                                          players_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2};
+      glm::vec2 player_bottom_right_corner = {players_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
+                                              players_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2};
+      
+      ci::gl::drawSolidRect(ci::Rectf(player_top_left_corner, player_bottom_right_corner));
 
       // Display obstacle
       for (Obstacle obstacle : obstacles_) {
@@ -52,7 +54,10 @@ namespace geometrydash {
       UpdatePlayer();  // update player position
       UpdateObstacle();// update obstacle position
 
-      player_manager_.CollidesWithBoundary(players_);// check if player collide with boundary that it can jump within
+      player_manager_.CollidesWithBoundary(players_, obstacles_);// check if player collide with boundary that it can jump within
+      
+//      if (!player_manager_.IsCollideWithObstacleTop(players_, obstacles_)) {
+//      }
 
       player_manager_.IsGameOver(players_, obstacles_);// check if game is over
 

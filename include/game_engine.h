@@ -68,13 +68,15 @@ namespace geometrydash {
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kFrameMargin = 100;                  // frame margin
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
+    const glm::vec2 kLineLeft = {kFrameMargin, kLinePosition};
+    const glm::vec2 kLineRight = {kWindowLength - kFrameMargin, kLinePosition};
 
     // player attributes
     const size_t kPlayerWidth = 40;       // player width
     const double kPlayerJumpFactor = -6.5;// factor that player jumps by
     const glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
                                         kLinePosition - kPlayerWidth / 2};// player starting position
-    const glm::vec2 player_velocity_ = glm::vec2{0, 0};                   // player starting velocity
+    const glm::vec2 player_velocity_ = {0, 0};                   // player starting velocity
 
     // obstacle attributes
     const size_t kObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
@@ -102,7 +104,7 @@ namespace geometrydash {
 
     glm::vec2 top_left_coordinate_;    // top left corner of container
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
-
+    
     size_t advancement_tracker_;// tracks number of advancement
     size_t score_;              // game score
   };

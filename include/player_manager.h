@@ -45,7 +45,7 @@ namespace geometrydash {
      * 
      * @param player 
      */
-    void CollidesWithBoundary(Player &player);
+    void CollidesWithBoundary(Player &player, std::vector<Obstacle> &obstacles);
 
     /**
      * Method that determines whether player has collided with obstacle/lost the game.
@@ -54,6 +54,21 @@ namespace geometrydash {
      * @return true if collided false otherwise
      */
     void IsGameOver(Player &player, std::vector<Obstacle> &obstacles);
+    
+    /**
+     * Method that determines if player collided with obstacle top.
+     * 
+     * @param player 
+     * @return true if collided false otherwise
+     */
+    bool IsCollideWithObstacleTop(Player &player, std::vector<Obstacle> &obstacles);
+    
+    /**
+     * Method to calculate velocity after hitting top of obstacles.
+     * 
+     * @param player 
+     */
+    void CalculatePostObstacleTopCollisionVelocity(Player &player);
 
     // Getter methods
     bool GetIsGameOver() const; 
@@ -70,6 +85,7 @@ namespace geometrydash {
 
     bool game_over_ = false;// game status
     bool is_valid_jump_ = true; // to ensure single jumps
+//    bool is_on_obstacle_top_ = false;// to see if player is on obstacle top
   };
   
 }// namespace geometrydash

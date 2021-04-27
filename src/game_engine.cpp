@@ -38,10 +38,11 @@ namespace geometrydash {
       }
       
       // Display score
-      ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white",ci::Font("Helvetica", 20));
+      ci::gl::drawStringCentered("CURRENT SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white",ci::Font("Helvetica", 20));
       
     } else if (player_manager_.GetIsGameOver()) {// if game is over
       ci::gl::drawStringCentered("GAME OVER. YA DEAD.", center_, "white", ci::Font("Helvetica", 24));
+      ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), score_display_, "white", ci::Font("Helvetica",20));
     }
   }
 
@@ -56,9 +57,6 @@ namespace geometrydash {
 
       player_manager_.CollidesWithBoundary(players_, obstacles_);// check if player collide with boundary that it can jump within
       
-//      if (!player_manager_.IsCollideWithObstacleTop(players_, obstacles_)) {
-//      }
-
       player_manager_.IsGameOver(players_, obstacles_);// check if game is over
 
       advancement_tracker_++;// increments advance one frame every time it is called
@@ -91,7 +89,7 @@ namespace geometrydash {
 
   void GameEngine::Jump() {
     if (player_manager_.GetIsValidJump()) {
-      players_.SetVelocity(glm::vec2{0, kPlayerJumpFactor});
+      players_.SetVelocity(glm::vec2{0, kPlayerJumpVelocity});
       player_manager_.SetIsValidJump(false);
     }
   }

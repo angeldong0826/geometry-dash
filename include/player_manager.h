@@ -82,10 +82,11 @@ namespace geometrydash {
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
     const size_t kJumpDistance = 290;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
+    const double kPlayerJumpVelocity = -6.5;// velocity that player jumps by
 
     bool game_over_ = false;// game status
     bool is_valid_jump_ = true; // to ensure single jumps
-//    bool is_on_obstacle_top_ = false;// to see if player is on obstacle top
+    bool is_on_obstacle_top_ = false;// to see if player is on obstacle top
   };
   
 }// namespace geometrydash

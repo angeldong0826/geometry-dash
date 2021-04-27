@@ -73,7 +73,7 @@ namespace geometrydash {
 
     // player attributes
     const size_t kPlayerWidth = 40;       // player width
-    const double kPlayerJumpFactor = -6.5;// factor that player jumps by
+    const double kPlayerJumpVelocity = -6.5;// velocity that player jumps by
     const glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
                                         kLinePosition - kPlayerWidth / 2};// player starting position
     const glm::vec2 player_velocity_ = {0, 0};                   // player starting velocity
@@ -92,6 +92,7 @@ namespace geometrydash {
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
 
     const glm::vec2 center_ = {650, 350};// center of game
+    const glm::vec2 score_display_ = {650,400};
 
     // for random spawning purposes
     const size_t high_ = 10;

@@ -72,16 +72,19 @@ namespace geometrydash {
   }
   
   bool PlayerManager::IsCollideWithObstacleTop(Player &player, std::vector<Obstacle> &obstacles) {
+
     for (Obstacle &obstacle : obstacles) {
       
       if (obstacle.GetShape() == "rectangle") {
         if (((player.GetPosition().y + static_cast<float>(kPlayerWidth)/2) <= (obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())))
-            && ((player.GetPosition().x + kPlayerWidth/2) >= (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth())/2))
-            && ((player.GetPosition().x - kPlayerWidth/2) <= (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth())/2))
-            && (player.GetPosition().y + static_cast<float>(kPlayerWidth)/2) >= (obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight() + kPlayerWidth))){
-//          if (player.GetPosition().x + kPlayerWidth/2 > (obstacle.GetPosition().x + obstacle.GetWidth()/2 + obstacle.GetVelocity().x)) {
-//            is_on_obstacle_top_ = true;
-//          }
+            && ((player.GetPosition().x + static_cast<float>(kPlayerWidth)/2) >= (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth())/2))
+            && ((player.GetPosition().x - static_cast<float>(kPlayerWidth)/2) <= (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth())/2))
+            && (player.GetPosition().y + static_cast<float>(kPlayerWidth)/2) >= (obstacle.GetPosition().y - static_cast<float>(static_cast<float>(obstacle.GetHeight()) 
+                                                                                                          + static_cast<float>(kPlayerWidth)/2))){
+          if ((player.GetPosition().x + static_cast<float>(kPlayerWidth)/2 >= (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth())/2 + obstacle.GetVelocity().x))
+              && (player.GetPosition().x - static_cast<float>(kPlayerWidth)/2 <= (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth())/2 + obstacle.GetVelocity().x))) {
+            is_on_obstacle_top_ = true;
+          }
           return true;
         }
       }
@@ -91,14 +94,21 @@ namespace geometrydash {
   }
   
   void PlayerManager::CalculatePostObstacleTopCollisionVelocity(Player &player) {
-      // Separate out player's x and y velocities
+      // Separate out player's x and y velocities  
     double x_velocity = player.GetVelocity().x;
     double y_velocity = player.GetVelocity().y;
-//    if (is_on_obstacle_top_) {
-//      y_velocity *= 0; // sets y-velocity to 0, doesn't bounce back when reach bottom
-//      is_on_obstacle_top_ = false;
-//    }
-    y_velocity *= 0; // sets y-velocity to 0, doesn't bounce back when reach bottom
+    if (is_on_obstacle_top_) {  
+      std::cout << "hi" << std::endl;
+      y_velocity *= 0; // sets y-velocity to 0, doesn't bounce back when reach bottom
+//      std::cout << is_on_obstacle_top_ << std::endl;
+      is_on_obstacle_top_ = false;
+    } else {
+      std::cout << "hello" << std::endl;
+      y_velocity = -kPlayerJumpVelocity;
+    }
+//    y_velocity *= 0; // sets y-velocity to 0, doesn't bounce back when reach bottom
+//    std::cout << y_velocity << std::endl;
+//    std::cout << is_on_obstacle_top_ << std::endl;
 
     player.SetVelocity(glm::vec2(x_velocity, y_velocity)); // set new velocity
     SetIsValidJump(true);

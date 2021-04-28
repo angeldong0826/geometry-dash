@@ -64,7 +64,7 @@ namespace geometrydash {
     bool IsCollideWithObstacleTop(Player &player, std::vector<Obstacle> &obstacles);
     
     /**
-     * Method to calculate velocity after hitting top of obstacles.
+     * Method to calculate velocity after hitting top of obstacles_.
      * 
      * @param player 
      */
@@ -76,13 +76,14 @@ namespace geometrydash {
     
     //Setter methods
     void SetIsValidJump(bool state);
+    void SetIsGameOver(bool state);
 
   private:
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
     const size_t kJumpDistance = 290;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
-    const double kPlayerJumpVelocity = -6.5;// velocity that player jumps by
+    const double kPlayerJumpVelocity = 6.5;// velocity that player jumps by
 
     bool game_over_ = false;// game status
     bool is_valid_jump_ = true; // to ensure single jumps

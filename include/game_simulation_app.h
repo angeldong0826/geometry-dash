@@ -36,7 +36,7 @@ namespace geometrydash {
     const size_t kWindowWidth = 700;  // display window width
     const size_t kFrameMargin = 100;  // frame margin
 
-    GameEngine game_frame_ =
+    GameEngine game_engine_ =
             GameEngine(glm::vec2(kFrameMargin, kFrameMargin),
                        glm::vec2(kWindowLength - kFrameMargin, kWindowWidth - kFrameMargin));// instance of game frame
   };

@@ -40,7 +40,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
     FetchContent_Populate(catch2)
-    add_library(catch2 INTERFACE tests/test_game_engine.cpp tests/test_obstacles.cpp tests/test_player.cpp apps/cinder_app_main.cpp tests/test_main.cpp src/game_simulation_app.cpp include/game_simulation_app.h src/player_manager.cpp include/player_manager.h)
+    add_library(catch2 INTERFACE)
     target_include_directories(catch2 INTERFACE ${catch2_SOURCE_DIR}/single_include)
 endif()
 
@@ -56,8 +56,7 @@ list(APPEND SOURCE_FILES    src/game_engine.cpp
         src/player_manager.cpp)
 
 list(APPEND TEST_FILES tests/test_game_engine.cpp
-        tests/test_obstacles.cpp
-        tests/test_player.cpp)
+        tests/test_player_manager.cpp)
 
 ci_make_app(
         APP_NAME        geometry-dash

@@ -22,10 +22,10 @@ namespace geometrydash {
       ci::gl::color(ci::Color("white"));
       ci::gl::drawLine(kLineLeft, kLineRight);
 
-      glm::vec2 player_top_left_corner = {players_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
-                                          players_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2};
-      glm::vec2 player_bottom_right_corner = {players_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
-                                              players_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2};
+      glm::vec2 player_top_left_corner = {player_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
+                                          player_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2};
+      glm::vec2 player_bottom_right_corner = {player_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
+                                              player_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2};
       
       ci::gl::drawSolidRect(ci::Rectf(player_top_left_corner, player_bottom_right_corner));
 
@@ -43,24 +43,34 @@ namespace geometrydash {
     } else if (player_manager_.GetIsGameOver()) {// if game is over
       ci::gl::drawStringCentered("GAME OVER. YA DEAD.", center_, "white", ci::Font("Helvetica", 24));
       ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), score_display_, "white", ci::Font("Helvetica",20));
+      ci::gl::drawStringCentered("RECORD: " + std::to_string(record_), max_score_display_, "white", ci::Font("Helvetica",20));
+      ci::gl::drawStringCentered("PRESS  'r'  TO RESTART.", restart_text_display_, "white", ci::Font("Helvetica", 22));
     }
   }
 
   void GameEngine::AdvanceOneFrame() {
     if (!player_manager_.GetIsGameOver()) {// if game isn't over
       if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound, kObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
-        GenerateObstacle();// generate obstacles at random time frames
+        GenerateObstacle();// generate obstacles_ at random time frames
       }
       
       UpdatePlayer();  // update player position
       UpdateObstacle();// update obstacle position
 
-      player_manager_.CollidesWithBoundary(players_, obstacles_);// check if player collide with boundary that it can jump within
+      player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collide with boundary that it can jump within
       
-      player_manager_.IsGameOver(players_, obstacles_);// check if game is over
+      player_manager_.IsGameOver(player_, obstacles_);// check if game is over
 
       advancement_tracker_++;// increments advance one frame every time it is called
       score_++;// increments player score
+      
+    } else if (player_manager_.GetIsGameOver()) {
+//      std::cout << score_ << std::endl;
+//      std::cout << record_ << std::endl;
+      CalculateMaxScore(score_);
+//      obstacles_.clear();
+//      score_ = 0;
+//      advancement_tracker_ = 0;
     }
   }
 
@@ -89,7 +99,7 @@ namespace geometrydash {
 
   void GameEngine::Jump() {
     if (player_manager_.GetIsValidJump()) {
-      players_.SetVelocity(glm::vec2{0, kPlayerJumpVelocity});
+      player_.SetVelocity(glm::vec2{0, kPlayerJumpVelocity});
       player_manager_.SetIsValidJump(false);
     }
   }
@@ -101,7 +111,20 @@ namespace geometrydash {
   }
 
   void GameEngine::UpdatePlayer() {
-    players_.SetPosition(players_.GetPosition() + players_.GetVelocity());
+    player_.SetPosition(player_.GetPosition() + player_.GetVelocity());
+  }
+  
+  void GameEngine::CalculateMaxScore(size_t current) {
+    if (current > record_) {
+      record_ = current;
+    }
+  }
+  
+  void GameEngine::Restart() {
+    score_ = 0;
+    advancement_tracker_ = 0;
+    obstacles_.clear();
+    player_manager_.SetIsGameOver(false);
   }
 
 }// namespace geometrydash

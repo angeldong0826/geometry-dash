@@ -44,7 +44,7 @@ namespace geometrydash {
       ci::gl::drawStringCentered("GAME OVER. YA DEAD.", center_, "white", ci::Font("Helvetica", 24));
       ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), score_display_, "white", ci::Font("Helvetica",20));
       ci::gl::drawStringCentered("RECORD: " + std::to_string(record_), max_score_display_, "white", ci::Font("Helvetica",20));
-      ci::gl::drawStringCentered("PRESS  'r'  TO RESTART.", restart_text_display_, "white", ci::Font("Helvetica", 22));
+      ci::gl::drawStringCentered("PRESS  ' r '  TO RESTART.", restart_text_display_, "white", ci::Font("Helvetica", 22));
     }
   }
 
@@ -65,12 +65,7 @@ namespace geometrydash {
       score_++;// increments player score
       
     } else if (player_manager_.GetIsGameOver()) {
-//      std::cout << score_ << std::endl;
-//      std::cout << record_ << std::endl;
       CalculateMaxScore(score_);
-//      obstacles_.clear();
-//      score_ = 0;
-//      advancement_tracker_ = 0;
     }
   }
 

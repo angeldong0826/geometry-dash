@@ -9,19 +9,22 @@ namespace geometrydash {
     ci::Color background_color("black");
     ci::gl::clear(background_color);
 
-    game_frame_.Display();
+    game_engine_.Display();
   }
 
   void GeometryDashApp::update() {
     AppBase::update();
 
-    game_frame_.AdvanceOneFrame();
+    game_engine_.AdvanceOneFrame();
   }
 
   void GeometryDashApp::keyDown(cinder::app::KeyEvent event) {
 
     if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
-      game_frame_.Jump();
+      game_engine_.Jump();
+    }
+    if (event.getChar() == 'r') {
+      game_engine_.Restart();
     }
   }
 

@@ -45,7 +45,7 @@ namespace geometrydash {
      * 
      * @param player 
      */
-    void CollidesWithBoundary(Player &player);
+    void CollidesWithBoundary(Player &player, std::vector<Obstacle> &obstacles);
 
     /**
      * Method that determines whether player has collided with obstacle/lost the game.
@@ -54,16 +54,40 @@ namespace geometrydash {
      * @return true if collided false otherwise
      */
     void IsGameOver(Player &player, std::vector<Obstacle> &obstacles);
+    
+    /**
+     * Method that determines if player collided with obstacle top.
+     * 
+     * @param player 
+     * @return true if collided false otherwise
+     */
+    bool IsCollideWithObstacleTop(Player &player, std::vector<Obstacle> &obstacles);
+    
+    /**
+     * Method to calculate velocity after hitting top of obstacles_.
+     * 
+     * @param player 
+     */
+    void CalculatePostObstacleTopCollisionVelocity(Player &player);
 
     // Getter methods
-    bool GetIsGameOver() const;
+    bool GetIsGameOver() const; 
+    bool GetIsValidJump() const;
+    
+    //Setter methods
+    void SetIsValidJump(bool state);
+    void SetIsGameOver(bool state);
 
   private:
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
-    const size_t kJumpDistance = 260;                 // player vertical jump distance
+    const size_t kJumpDistance = 290;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
+    const double kPlayerJumpVelocity = 6.5;// velocity that player jumps by
 
     bool game_over_ = false;// game status
+    bool is_valid_jump_ = true; // to ensure single jumps
+    bool is_on_obstacle_top_ = false;// to see if player is on obstacle top
   };
+  
 }// namespace geometrydash

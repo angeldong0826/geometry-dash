@@ -60,43 +60,69 @@ namespace geometrydash {
      * Method that updates player.
      */
     void UpdatePlayer();
+    
+    /**
+     * Method that calculates max score.
+     * 
+     * @param current 
+     */
+    void CalculateMaxScore(size_t current);
+    
+    /**
+     * Method that restarts the game.
+     */
+    void Restart();
 
   private:
     // game frame attributes
-    const size_t kFrameBorderWidth = 5;           // border width of container
+    const size_t kFrameBorderWidth = 5;               // border width of container
     const size_t kWindowLength = 1300;                // display window length
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kFrameMargin = 100;                  // frame margin
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
+    const glm::vec2 kLineLeft = {kFrameMargin, kLinePosition};
+    const glm::vec2 kLineRight = {kWindowLength - kFrameMargin, kLinePosition};
 
     // player attributes
     const size_t kPlayerWidth = 40;       // player width
-    const double kPlayerJumpFactor = -7.0;// factor that player jumps by
+    const double kPlayerJumpVelocity = -6.5;// velocity that player jumps by
     const glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
                                         kLinePosition - kPlayerWidth / 2};// player starting position
-    const glm::vec2 player_velocity_ = glm::vec2{0, 0};                   // player starting velocity
+    const glm::vec2 player_velocity_ = {0, 0};                   // player starting velocity
 
     // obstacle attributes
-    const size_t kObstacleSpawningFrequencyLowerBound = 50;                              // obstacle spawning frequency lower bound
-    const size_t kObstacleSpawningFrequencyUpperBound = 100;                             // obstacle spawning frequency upper bound
-    const size_t kObstacleBorderWidth = 2;                                               // obstacle border width
-    const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at
-    const glm::vec2 kObstacleVelocity = {-3, 0};                                         // velocity obstacles move at
+    const size_t kObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
+    const size_t kObstacleSpawningFrequencyUpperBound = 140;                             // obstacle spawning frequency upper bound
+    const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles_ at
+    const glm::vec2 kObstacleVelocity = {-3.5, 0};                                         // velocity obstacles_ move at
     const size_t kObstacleHeightHigh = 130;                                              // obstacle height upper bound
     const size_t kObstacleHeightLow = 50;                                                // obstacle height lower bound
     const size_t kObstacleWidthLow = 30;                                                 // obstacle width lower bound
     const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
 
-    const glm::vec2 center_ = {650, 350};// center of game
+    // score attributes
+    const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
 
-    Player players_ = Player(player_position_, player_velocity_);// instance of player
+    const glm::vec2 center_ = {650, 350};// center of game
+    const glm::vec2 score_display_ = {650,400}; // position for score display
+    const glm::vec2 max_score_display_ = {650, 450}; // position for max score display
+    const glm::vec2 restart_text_display_ = {650, 500};//restart message display position
+
+    // for random spawning purposes
+    const size_t high_ = 10;
+    const size_t low_ = 0;
+    const size_t mid_ = 5;
+
+    Player player_ = Player(player_position_, player_velocity_);// instance of player
     PlayerManager player_manager_;                               // instance of player manager for calculation purpose
-    std::vector<Obstacle> obstacles_;                            // vector of obstacles in game
+    std::vector<Obstacle> obstacles_;                            // vector of obstacles_ in game
 
     glm::vec2 top_left_coordinate_;    // top left corner of container
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
-
+    
     size_t advancement_tracker_;// tracks number of advancement
+    size_t score_;              // game score
+    size_t record_;// max game score
   };
 
 }// namespace geometrydash

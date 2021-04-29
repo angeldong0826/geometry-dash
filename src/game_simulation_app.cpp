@@ -11,8 +11,8 @@ namespace geometrydash {
     
     if (is_starting_page_) {
       ci::gl::drawStringCentered("WELCOME TO GEOMETRY DASH!", center_, "white", ci::Font("Helvetica", 24));
-      ci::gl::drawStringCentered("(well a lamer version but yeah hello hi welcome)", parenthesis_display_, "white", ci::Font("Helvetica", 17));
-      ci::gl::drawStringCentered("PRESS SPACE TO START GAME. GOOD LUCK.", instruction__display_, "white", ci::Font("Helvetica", 20));
+      ci::gl::drawStringCentered("(well a lamer version but yeah uhh hello hi welcome)", parenthesis_display_, "white", ci::Font("Helvetica", 17));
+      ci::gl::drawStringCentered("PRESS 'SPACE' TO START GAME. GOOD LUCK.", instruction__display_, "white", ci::Font("Helvetica", 20));
       
     } else {
       game_engine_.Display();

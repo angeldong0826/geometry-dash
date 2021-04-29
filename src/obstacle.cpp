@@ -19,7 +19,7 @@ namespace geometrydash {
                                                   position_.y}),
                               static_cast<float>(kObstacleBorderWidth));
     } else if (shape_ == "triangle") {
-      ci::gl::color(ci::Color("pink"));
+      ci::gl::color(ci::Color("teal"));
       ci::gl::drawSolidTriangle(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y}, 
                                 glm::vec2{position_.x + static_cast<float>(width_) / 2, position_.y},
                                 glm::vec2{position_.x, position_.y - static_cast<float>(height_)});

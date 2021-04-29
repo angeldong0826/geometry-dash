@@ -1,6 +1,7 @@
 #include "../include/game_engine.h"
 #include <cinder/gl/draw.h>
 #include <cinder/gl/wrapper.h>
+#include "cinder/app/App.h"
 
 namespace geometrydash {
 
@@ -41,6 +42,7 @@ namespace geometrydash {
       ci::gl::drawStringCentered("CURRENT SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white",ci::Font("Helvetica", 20));
       
     } else if (player_manager_.GetIsGameOver()) {// if game is over
+      ci::gl::draw(ci::gl::Texture::create(loadImage(ci::app::loadAsset("skull.jpeg"))));
       ci::gl::drawStringCentered("GAME OVER. YA DEAD.", center_, "white", ci::Font("Helvetica", 24));
       ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), score_display_, "white", ci::Font("Helvetica",20));
       ci::gl::drawStringCentered("RECORD: " + std::to_string(record_), max_score_display_, "white", ci::Font("Helvetica",20));

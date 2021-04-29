@@ -35,6 +35,11 @@ namespace geometrydash {
     const size_t kWindowLength = 1300;// display window length
     const size_t kWindowWidth = 700;  // display window width
     const size_t kFrameMargin = 100;  // frame margin
+    const glm::vec2 center_ = {650, 350};// center of game frame
+    const glm::vec2 parenthesis_display_ = {650,400}; // position for score display
+    const glm::vec2 instruction__display_ = {650,450}; // position for score display
+
+    bool is_starting_page_ = true; // if on starting page
 
     GameEngine game_engine_ =
             GameEngine(glm::vec2(kFrameMargin, kFrameMargin),

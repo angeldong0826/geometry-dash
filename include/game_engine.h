@@ -103,7 +103,7 @@ namespace geometrydash {
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
 
-    const glm::vec2 center_ = {650, 350};// center of game
+    const glm::vec2 center_ = {650, 350};// center of game frame
     const glm::vec2 score_display_ = {650,400}; // position for score display
     const glm::vec2 max_score_display_ = {650, 450}; // position for max score display
     const glm::vec2 restart_text_display_ = {650, 500};//restart message display position

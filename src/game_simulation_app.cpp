@@ -8,23 +8,38 @@ namespace geometrydash {
   void GeometryDashApp::draw() {
     ci::Color background_color("black");
     ci::gl::clear(background_color);
-
-    game_engine_.Display();
+    
+    if (is_starting_page_) {
+      ci::gl::drawStringCentered("WELCOME TO GEOMETRY DASH!", center_, "white", ci::Font("Helvetica", 24));
+      ci::gl::drawStringCentered("(well a lamer version but yeah hello hi welcome)", parenthesis_display_, "white", ci::Font("Helvetica", 17));
+      ci::gl::drawStringCentered("PRESS SPACE TO START GAME. GOOD LUCK.", instruction__display_, "white", ci::Font("Helvetica", 20));
+      
+    } else {
+      game_engine_.Display();
+    }
   }
 
   void GeometryDashApp::update() {
-    AppBase::update();
-
-    game_engine_.AdvanceOneFrame();
+    if (!is_starting_page_) {
+      AppBase::update();
+      
+      game_engine_.AdvanceOneFrame();
+    }
   }
 
   void GeometryDashApp::keyDown(cinder::app::KeyEvent event) {
-
-    if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
-      game_engine_.Jump();
-    }
-    if (event.getChar() == 'r') {
-      game_engine_.Restart();
+    if (is_starting_page_) {
+      if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
+        is_starting_page_ = false;
+      }
+      
+    } else {
+      if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
+        game_engine_.Jump();
+      }
+      if (event.getChar() == 'r') {
+        game_engine_.Restart();
+      }
     }
   }
 

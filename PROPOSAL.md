@@ -22,7 +22,7 @@ records. With that, I would also need to implement a "point
 system" that determines how scores work. For example, it could
 depend on how far the player traveled, etc. For the final week,
 I plan to "beautify" my game, where I would make the UI look
-nice and add features like a timer, simple decorations along the
-way of the game, etc. If I end up having extra time, I also
+nice and maybe something like adding simple decorations along the
+way of the game. If I end up having extra time, I also
 plan on implementing background music to the game and maybe a
 "sound system" that corresponds to the user's key press.

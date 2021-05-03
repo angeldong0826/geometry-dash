@@ -42,9 +42,14 @@ namespace geometrydash {
     size_t RandomNumberGenerator(size_t lower_bound, size_t upper_bound);
 
     /**
-     * Method that generates a new obstacle to be added to game.
+     * Method that generates new obstacles to be added to part one of game.
      */
-    void GenerateObstacle();
+    void GeneratePartOneObstacle();
+    
+    /**
+     * Method that generates new obstacles to be added to part two of game. 
+     */
+    void GeneratePartTwoObstacle();
 
     /**
      * Method that executes on player when jump key is pressed.
@@ -72,6 +77,26 @@ namespace geometrydash {
      * Method that restarts the game.
      */
     void Restart();
+    
+    /**
+     * Method that speeds up the game along the way it goes.
+     */
+    void Accelerate();
+    
+    /**
+     * Methods that increments variables needed.
+     */
+    void Increment();
+    
+    /**
+     * Game over menu.
+     */
+    void GameOverMenuDisplay() const;
+    
+    /**
+     * Method to switch between game mode.
+     */
+    void SwitchMode();
 
   private:
     // game frame attributes
@@ -93,27 +118,34 @@ namespace geometrydash {
     // obstacle attributes
     const size_t kObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
     const size_t kObstacleSpawningFrequencyUpperBound = 140;                             // obstacle spawning frequency upper bound
-    const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles_ at
-    const size_t kObstacleHeightHigh = 130;                                              // obstacle height upper bound
-    const size_t kObstacleHeightLow = 60;                                                // obstacle height lower bound
+    const glm::vec2 kPartOneObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at for part 1
+    const glm::vec2 kPartTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin}; // position to spawn obstacles at for part 2
+    const size_t kPartOneObstacleHeightHigh = 130;                                              // obstacle height upper bound for part 1
+    const size_t kPartOneObstacleHeightLow = 60;                                                // obstacle height lower bound for part 1
+    const size_t kPartTwoObstacleHeightHigh = 100; // obstacle height upper bound for part 2
+    const size_t kPartTwoObstacleHeightLow = 40; // obstacle height lower bound for part 2
     const size_t kObstacleWidthLow = 30;                                                 // obstacle width lower bound
     const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
-    const double kObstacleAccelerationFactor = 1.2; // obstacle acceleration factor
+    const double kObstacleAccelerationFactor = 1.15; // obstacle acceleration factor
     const size_t kObstacleAccelerationDistance = 1000; // obstacle acceleration distance
-    glm::vec2 kObstacleVelocity = {-3.5, 0};                                         // velocity obstacles_ move at
+    const glm::vec2 kOriginalObstacleVelocity = {-3.5, 0};                                         // velocity obstacles_ move at
+    glm::vec2 obstacle_velocity_ = {-3.5, 0};                                         // velocity obstacles_ move at
 
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
-
-    const glm::vec2 center_ = {925, 350};// center of game frame
-    const glm::vec2 score_display_ = {925,400}; // position for score display
-    const glm::vec2 max_score_display_ = {925, 450}; // position for max score display
-    const glm::vec2 restart_text_display_ = {925, 500};//restart message display position
+    const glm::vec2 kCenter = {925, 350};// center of game frame
+    const glm::vec2 kScoreDisplay = {925,400}; // position for score display
+    const glm::vec2 kMaxScoreDisplay = {925, 450}; // position for max score display
+    const glm::vec2 kRestartTextDisplay = {925, 500};//restart message display position
 
     // for random spawning purposes
-    const size_t high_ = 10;
-    const size_t low_ = 0;
-    const size_t mid_ = 5;
+    const size_t kHigh = 10;
+    const size_t kLow = 0;
+    const size_t kMid = 5;
+
+    // for mode 2 purposes
+    const size_t kModeTwoDistance = 2000; // distance to enter mode two
+    bool is_mode_two_ = false; // bool to determine if game is in mode 2
 
     Player player_ = Player(player_position_, player_velocity_);// instance of player
     PlayerManager player_manager_;                               // instance of player manager for calculation purpose

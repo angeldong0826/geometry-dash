@@ -31,8 +31,8 @@ namespace geometrydash {
       ci::gl::drawSolidRect(ci::Rectf(player_top_left_corner, player_bottom_right_corner));
 
       // Display obstacle
-      for (Obstacle obstacle : obstacles_) {
-        // if obstacle is moving in frame
+      for (Obstacle obstacle : obstacles_) { // only display if obstacle is moving in frame
+        
         if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(obstacle.GetWidth()) / 2) {
           obstacle.DrawObstacle();
         }
@@ -42,53 +42,57 @@ namespace geometrydash {
       ci::gl::drawStringCentered("CURRENT SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white",ci::Font("Helvetica", 20));
       
     } else if (player_manager_.GetIsGameOver()) {// if game is over
-      ci::gl::draw(ci::gl::Texture::create(loadImage(ci::app::loadAsset("skull.jpeg"))));
-      ci::gl::drawStringCentered("GAME OVER. YA DEAD.", center_, "white", ci::Font("Helvetica", 24));
-      ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), score_display_, "white", ci::Font("Helvetica",20));
-      ci::gl::drawStringCentered("RECORD: " + std::to_string(record_), max_score_display_, "white", ci::Font("Helvetica",20));
-      ci::gl::drawStringCentered("PRESS  ' r '  TO RESTART.", restart_text_display_, "white", ci::Font("Helvetica", 22));
+      GameOverMenuDisplay();
     }
   }
 
   void GameEngine::AdvanceOneFrame() {
     if (!player_manager_.GetIsGameOver()) {// if game isn't over
-      if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound, kObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
-        GenerateObstacle();// generate obstacles_ at random time frames
+      if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound, kObstacleSpawningFrequencyUpperBound) 
+                                                        || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
+        GeneratePartOneObstacle();// generate obstacles_ at random time frames
       }
       
       UpdatePlayer();  // update player position
       UpdateObstacle();// update obstacle position
  
       player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collide with boundary that it can jump within
-      
       player_manager_.IsGameOver(player_, obstacles_);// check if game is over
 
-      advancement_tracker_++;// increments advance one frame every time it is called
-      score_++;// increments player score
-
-      if (score_ % kObstacleAccelerationDistance == 0) {
-        kObstacleVelocity = glm::vec2{kObstacleAccelerationFactor * kObstacleVelocity.x, 0};
-      }
-      std::cout << kObstacleVelocity << std::endl;
+      Increment();
+      Accelerate();
       
     } else if (player_manager_.GetIsGameOver()) {
       CalculateMaxScore(score_);
     }
   }
 
-  void GameEngine::GenerateObstacle() {
-    size_t rand = RandomNumberGenerator(low_, high_);
-    if (rand < mid_) {
-      obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity,
-                              RandomNumberGenerator(kObstacleHeightLow, kObstacleHeightHigh),
-                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle");
+  void GameEngine::GeneratePartOneObstacle() {
+    size_t rand = RandomNumberGenerator(kLow, kHigh);
+    if (rand < kMid) {
+      obstacles_.emplace_back(kPartOneObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kPartOneObstacleHeightLow, kPartOneObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle1");
     } else {
-      obstacles_.emplace_back(kObstacleSpawningPosition, kObstacleVelocity,
-                              RandomNumberGenerator(kObstacleHeightLow, kObstacleHeightHigh),
-                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle");
+      obstacles_.emplace_back(kPartOneObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kPartOneObstacleHeightLow, kPartOneObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle1");
     }
     
     advancement_tracker_ = 0;// reset tracker every time an obstacle is generated
+  }
+
+  void GameEngine::GeneratePartTwoObstacle() {
+    size_t rand = RandomNumberGenerator(kLow, kHigh);
+    if (rand < kMid) {
+      obstacles_.emplace_back(kPartTwoObstacleSpawningPosition, obstacle_velocity_, 
+                              RandomNumberGenerator(kPartTwoObstacleHeightLow, kPartTwoObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle2");
+    } else {
+      obstacles_.emplace_back(kPartTwoObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kPartTwoObstacleHeightLow, kPartTwoObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle2");
+    }
   }
   
   size_t GameEngine::RandomNumberGenerator(size_t lower_bound,
@@ -127,7 +131,31 @@ namespace geometrydash {
     advancement_tracker_ = 0;
     obstacles_.clear();
     player_manager_.SetIsGameOver(false);
-    kObstacleVelocity = {-3.5, 0};
+    obstacle_velocity_ = kOriginalObstacleVelocity;
+  }
+  
+  void GameEngine::Accelerate() {
+    if (score_ % kObstacleAccelerationDistance == 0) {
+      obstacle_velocity_ = glm::vec2{kObstacleAccelerationFactor * obstacle_velocity_.x, 0};
+    }
+  }
+  
+  void GameEngine::Increment() {
+    advancement_tracker_++;// increments advance one frame every time it is called
+    score_++;// increments player score
+  }
+  
+  void GameEngine::GameOverMenuDisplay() const {
+    ci::gl::draw(ci::gl::Texture::create(loadImage(ci::app::loadAsset("skull.jpeg"))));
+    ci::gl::drawStringCentered("GAME OVER. YA DEAD.", kCenter, "white", ci::Font("Helvetica", 24));
+    ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), kScoreDisplay, "white", ci::Font("Helvetica",20));
+    ci::gl::drawStringCentered("RECORD: " + std::to_string(record_), kMaxScoreDisplay, "white", ci::Font("Helvetica",20));
+    ci::gl::drawStringCentered("PRESS  ' r '  TO RESTART.", kRestartTextDisplay, "white", ci::Font("Helvetica", 22));
+  }
+  void GameEngine::SwitchMode() {
+    if (score_ % kModeTwoDistance == 0) {
+      
+    }
   }
 
 }// namespace geometrydash

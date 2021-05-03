@@ -77,7 +77,7 @@ namespace geometrydash {
 
       for (Obstacle &obstacle : obstacles) {
 
-        if (obstacle.GetShape() == "rectangle") {
+        if (obstacle.GetShape() == "rectangle1") {
           if (((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) <= 
                (obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight()))) && 
               

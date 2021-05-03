@@ -11,18 +11,28 @@ namespace geometrydash {
   }
 
   void Obstacle::DrawObstacle() {
-    if (shape_ == "rectangle") {
+    if (shape_ == "rectangle1") {
       ci::gl::color(ci::Color("white"));
       ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{position_.x - static_cast<float>(width_) / 2,
                                                   position_.y - static_cast<float>(height_)},
                                         glm::vec2{position_.x + static_cast<float>(width_) / 2,
                                                   position_.y}),
                               static_cast<float>(kObstacleBorderWidth));
-    } else if (shape_ == "triangle") {
+    } else if (shape_ == "triangle1") {
       ci::gl::color(ci::Color("teal"));
       ci::gl::drawSolidTriangle(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y}, 
                                 glm::vec2{position_.x + static_cast<float>(width_) / 2, position_.y},
                                 glm::vec2{position_.x, position_.y - static_cast<float>(height_)});
+      } else if (shape_ == "rectangle2") {
+        ci::gl::color(ci::Color("white"));
+        ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y},
+                                          glm::vec2{position_.x + static_cast<float>(width_) / 2, position_.y + static_cast<float>(height_)}), 
+                                static_cast<float>(kObstacleBorderWidth));
+      } else if (shape_ == "triangle2") {
+        ci::gl::color(ci::Color("white"));
+      ci::gl::drawSolidTriangle(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y},
+                                glm::vec2{position_.x + static_cast<float>(width_) / 2, position_.y},
+                                  glm::vec2{position_.x, position_.y + static_cast<float>(height_)});
       }
   }
 

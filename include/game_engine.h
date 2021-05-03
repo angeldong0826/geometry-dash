@@ -94,11 +94,13 @@ namespace geometrydash {
     const size_t kObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
     const size_t kObstacleSpawningFrequencyUpperBound = 140;                             // obstacle spawning frequency upper bound
     const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles_ at
-    const glm::vec2 kObstacleVelocity = {-3.5, 0};                                         // velocity obstacles_ move at
     const size_t kObstacleHeightHigh = 130;                                              // obstacle height upper bound
-    const size_t kObstacleHeightLow = 50;                                                // obstacle height lower bound
+    const size_t kObstacleHeightLow = 60;                                                // obstacle height lower bound
     const size_t kObstacleWidthLow = 30;                                                 // obstacle width lower bound
     const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
+    const double kObstacleAccelerationFactor = 1.2; // obstacle acceleration factor
+    const size_t kObstacleAccelerationDistance = 1000; // obstacle acceleration distance
+    glm::vec2 kObstacleVelocity = {-3.5, 0};                                         // velocity obstacles_ move at
 
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};

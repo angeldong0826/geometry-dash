@@ -58,13 +58,18 @@ namespace geometrydash {
       
       UpdatePlayer();  // update player position
       UpdateObstacle();// update obstacle position
-
+ 
       player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collide with boundary that it can jump within
       
       player_manager_.IsGameOver(player_, obstacles_);// check if game is over
 
       advancement_tracker_++;// increments advance one frame every time it is called
       score_++;// increments player score
+
+      if (score_ % kObstacleAccelerationDistance == 0) {
+        kObstacleVelocity = glm::vec2{kObstacleAccelerationFactor * kObstacleVelocity.x, 0};
+      }
+      std::cout << kObstacleVelocity << std::endl;
       
     } else if (player_manager_.GetIsGameOver()) {
       CalculateMaxScore(score_);
@@ -122,6 +127,7 @@ namespace geometrydash {
     advancement_tracker_ = 0;
     obstacles_.clear();
     player_manager_.SetIsGameOver(false);
+    kObstacleVelocity = {-3.5, 0};
   }
 
 }// namespace geometrydash

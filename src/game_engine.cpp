@@ -48,51 +48,73 @@ namespace geometrydash {
 
   void GameEngine::AdvanceOneFrame() {
     if (!player_manager_.GetIsGameOver()) {// if game isn't over
-      if (advancement_tracker_ == RandomNumberGenerator(kObstacleSpawningFrequencyLowerBound, kObstacleSpawningFrequencyUpperBound) 
-                                                        || advancement_tracker_ > kObstacleSpawningFrequencyUpperBound) {
-        GeneratePartOneObstacle();// generate obstacles_ at random time frames
+
+      if (!is_mode_two_) {
+        if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) 
+            || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
+
+          GenerateModeOneObstacle();// generate obstacles at random time frames for first mode
+        }
+      } else {
+        if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) 
+            || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
+
+          GenerateModeTwoObstacle();// generate obstacles at random time frames for second mode
+        }
       }
       
       UpdatePlayer();  // update player position
       UpdateObstacle();// update obstacle position
- 
-      player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collide with boundary that it can jump within
-      player_manager_.IsGameOver(player_, obstacles_);// check if game is over
 
-      Increment();
+      player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collide with boundary that it can jump within
+      player_manager_.IsModeOneGameOver(player_, obstacles_);          // check if game is over
+
+      Increment(); // increments score and tracker
       Accelerate();
-      
+      SwitchMode();
+
     } else if (player_manager_.GetIsGameOver()) {
       CalculateMaxScore(score_);
     }
   }
 
-  void GameEngine::GeneratePartOneObstacle() {
+  void GameEngine::GenerateModeOneObstacle() {
     size_t rand = RandomNumberGenerator(kLow, kHigh);
-    if (rand < kMid) {
-      obstacles_.emplace_back(kPartOneObstacleSpawningPosition, obstacle_velocity_,
-                              RandomNumberGenerator(kPartOneObstacleHeightLow, kPartOneObstacleHeightHigh),
+    if (rand < kThree) {
+      obstacles_.emplace_back(kModeOneObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kModeOneObstacleHeightLow, kModeOneObstacleHeightHigh),
                               RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle1");
     } else {
-      obstacles_.emplace_back(kPartOneObstacleSpawningPosition, obstacle_velocity_,
-                              RandomNumberGenerator(kPartOneObstacleHeightLow, kPartOneObstacleHeightHigh),
+      obstacles_.emplace_back(kModeOneObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kModeOneObstacleHeightLow, kModeOneObstacleHeightHigh),
                               RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle1");
     }
     
     advancement_tracker_ = 0;// reset tracker every time an obstacle is generated
   }
 
-  void GameEngine::GeneratePartTwoObstacle() {
+  void GameEngine::GenerateModeTwoObstacle() {
     size_t rand = RandomNumberGenerator(kLow, kHigh);
-    if (rand < kMid) {
-      obstacles_.emplace_back(kPartTwoObstacleSpawningPosition, obstacle_velocity_, 
-                              RandomNumberGenerator(kPartTwoObstacleHeightLow, kPartTwoObstacleHeightHigh),
-                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle2");
-    } else {
-      obstacles_.emplace_back(kPartTwoObstacleSpawningPosition, obstacle_velocity_,
-                              RandomNumberGenerator(kPartTwoObstacleHeightLow, kPartTwoObstacleHeightHigh),
+    
+    if (rand < kFirstBound) {
+      obstacles_.emplace_back(kModeOneObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kModeOneObstacleHeightLow, kModeOneObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle1");
+    } else if (rand >= kFirstBound && rand < kSecondBound) {
+      obstacles_.emplace_back(kModeOneObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kModeOneObstacleHeightLow, kModeOneObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle1");
+    } else if (rand >= kSecondBound && rand < kThirdBound) {
+      obstacles_.emplace_back(kModeTwoObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kModeTwoObstacleHeightLow, kModeTwoObstacleHeightHigh),
                               RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle2");
+    } else {
+      obstacles_.emplace_back(kModeTwoObstacleSpawningPosition, obstacle_velocity_,
+                              RandomNumberGenerator(kModeTwoObstacleHeightLow, kModeTwoObstacleHeightHigh),
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle2");
     }
+    
+    advancement_tracker_ = 0;// reset tracker every time an obstacle is generated
   }
   
   size_t GameEngine::RandomNumberGenerator(size_t lower_bound,
@@ -113,6 +135,9 @@ namespace geometrydash {
   void GameEngine::UpdateObstacle() {
     for (auto &obstacle : obstacles_) {
       obstacle.SetPosition(obstacle.GetPosition() + obstacle.GetVelocity());
+//      if (obstacle.GetPosition().x < static_cast<float>(kFrameMargin)) {
+//        obstacles_.erase(obstacles_.begin());
+//      }
     }
   }
 
@@ -129,9 +154,11 @@ namespace geometrydash {
   void GameEngine::Restart() {
     score_ = 0;
     advancement_tracker_ = 0;
+    is_mode_two_ = false;
     obstacles_.clear();
     player_manager_.SetIsGameOver(false);
     obstacle_velocity_ = kOriginalObstacleVelocity;
+    player_.SetPosition(kPlayerPosition);
   }
   
   void GameEngine::Accelerate() {
@@ -152,9 +179,10 @@ namespace geometrydash {
     ci::gl::drawStringCentered("RECORD: " + std::to_string(record_), kMaxScoreDisplay, "white", ci::Font("Helvetica",20));
     ci::gl::drawStringCentered("PRESS  ' r '  TO RESTART.", kRestartTextDisplay, "white", ci::Font("Helvetica", 22));
   }
+  
   void GameEngine::SwitchMode() {
     if (score_ % kModeTwoDistance == 0) {
-      
+      is_mode_two_ = true;
     }
   }
 

@@ -44,12 +44,12 @@ namespace geometrydash {
     /**
      * Method that generates new obstacles to be added to part one of game.
      */
-    void GeneratePartOneObstacle();
+    void GenerateModeOneObstacle();
     
     /**
      * Method that generates new obstacles to be added to part two of game. 
      */
-    void GeneratePartTwoObstacle();
+    void GenerateModeTwoObstacle();
 
     /**
      * Method that executes on player when jump key is pressed.
@@ -104,33 +104,30 @@ namespace geometrydash {
     const size_t kWindowLength = 1300;                // display window length
     const size_t kWindowWidth = 700;                  // display window width
     const size_t kFrameMargin = 100;                  // frame margin
+
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
     const glm::vec2 kLineLeft = {kFrameMargin, kLinePosition};
     const glm::vec2 kLineRight = {kWindowLength - kFrameMargin, kLinePosition};
 
     // player attributes
     const size_t kPlayerWidth = 40;       // player width
+    const glm::vec2 kPlayerPosition = {kWindowLength / 5 + kPlayerWidth / 2,
+                                        kLinePosition - kPlayerWidth / 2};// player position
+    const glm::vec2 kPlayerVelocity = {0, 0};                   // player starting velocity
     const double kPlayerJumpVelocity = -6.5;// velocity that player jumps by
-    const glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
-                                        kLinePosition - kPlayerWidth / 2};// player starting position
-    const glm::vec2 player_velocity_ = {0, 0};                   // player starting velocity
 
     // obstacle attributes
-    const size_t kObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
-    const size_t kObstacleSpawningFrequencyUpperBound = 140;                             // obstacle spawning frequency upper bound
-    const glm::vec2 kPartOneObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at for part 1
-    const glm::vec2 kPartTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin}; // position to spawn obstacles at for part 2
-    const size_t kPartOneObstacleHeightHigh = 130;                                              // obstacle height upper bound for part 1
-    const size_t kPartOneObstacleHeightLow = 60;                                                // obstacle height lower bound for part 1
-    const size_t kPartTwoObstacleHeightHigh = 100; // obstacle height upper bound for part 2
-    const size_t kPartTwoObstacleHeightLow = 40; // obstacle height lower bound for part 2
+    const size_t kModeOneObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
+    const size_t kModeOneObstacleSpawningFrequencyUpperBound = 140;                             // obstacle spawning frequency upper bound
+    const glm::vec2 kModeOneObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at for part 1
+    const size_t kModeOneObstacleHeightHigh = 130;                                              // obstacle height upper bound for part 1
+    const size_t kModeOneObstacleHeightLow = 60;                                                // obstacle height lower bound for part 1
     const size_t kObstacleWidthLow = 30;                                                 // obstacle width lower bound
     const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
     const double kObstacleAccelerationFactor = 1.15; // obstacle acceleration factor
-    const size_t kObstacleAccelerationDistance = 1000; // obstacle acceleration distance
+    const size_t kObstacleAccelerationDistance = 800; // obstacle acceleration distance
     const glm::vec2 kOriginalObstacleVelocity = {-3.5, 0};                                         // velocity obstacles_ move at
-    glm::vec2 obstacle_velocity_ = {-3.5, 0};                                         // velocity obstacles_ move at
-
+    
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
     const glm::vec2 kCenter = {925, 350};// center of game frame
@@ -139,15 +136,25 @@ namespace geometrydash {
     const glm::vec2 kRestartTextDisplay = {925, 500};//restart message display position
 
     // for random spawning purposes
-    const size_t kHigh = 10;
+    const size_t kHigh = 9;
     const size_t kLow = 0;
-    const size_t kMid = 5;
+    const size_t kFirstBound = 2;
+    const size_t kSecondBound = 5;
+    const size_t kThirdBound = 7;
+    const size_t kThree = 3;
 
     // for mode 2 purposes
-    const size_t kModeTwoDistance = 2000; // distance to enter mode two
+    const size_t kModeTwoDistance = 500; // distance to enter mode two
+    const glm::vec2 kModeTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin}; // position to spawn obstacles at for part 2
+    const size_t kModeTwoObstacleHeightHigh = 130; // obstacle height upper bound for part 2
+    const size_t kModeTwoObstacleHeightLow = 60; // obstacle height lower bound for part 2
+    const size_t kModeTwoObstacleSpawningFrequencyLowerBound = 40;                              // obstacle spawning frequency lower bound
+    const size_t kModeTwoObstacleSpawningFrequencyUpperBound = 100;                             // obstacle spawning frequency upper bound
     bool is_mode_two_ = false; // bool to determine if game is in mode 2
 
-    Player player_ = Player(player_position_, player_velocity_);// instance of player
+    glm::vec2 obstacle_velocity_ = {-3.5, 0};                                         // velocity obstacles_ move at
+
+    Player player_ = Player(kPlayerPosition, kPlayerVelocity);// instance of player
     PlayerManager player_manager_;                               // instance of player manager for calculation purpose
     std::vector<Obstacle> obstacles_;                            // vector of obstacles_ in game
 
@@ -155,7 +162,7 @@ namespace geometrydash {
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
     
     size_t advancement_tracker_;// tracks number of advancement
-    size_t score_;              // game score
+    size_t score_ = 0;              // game score
     size_t record_;// max game score
   };
 

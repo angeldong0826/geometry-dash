@@ -4,15 +4,14 @@ namespace geometrydash {
 
     bool PlayerManager::IsCollideWithTop(Player &player) const {
       if ((player.GetVelocity().y < 0) && (player.GetPosition().y <=
-                                           static_cast<float>(kLinePosition) -
-                                           static_cast<float>(kJumpDistance))) {
+                                           static_cast<float>(kLinePosition -kJumpDistance))) {
         return true;// if collide
       }
 
       return false;// if not collide
     }
 
-    bool PlayerManager::IsCollideWithBottom(Player &player) const {
+    bool PlayerManager::IsCollideWithFloor(Player &player) const {
       if ((player.GetVelocity().y > 0) && (player.GetPosition().y +
                                            static_cast<float>(kPlayerWidth) / 2 >=
                                            static_cast<float>(kLinePosition))) {
@@ -45,15 +44,14 @@ namespace geometrydash {
       if (IsCollideWithTop(player)) {// checks if collide on top
         CalculatePostTopCollisionVelocity(player);
 
-      } else if (IsCollideWithBottom(player)) {// otherwise checks if collide on bottom
+      } else if (IsCollideWithFloor(player)) {// otherwise checks if collide on bottom
         CalculatePostBottomCollisionVelocity(player);
       } else if (IsCollideWithObstacleTop(player, obstacles)) {
         CalculatePostObstacleTopCollisionVelocity(player);
       }
     }
 
-    void PlayerManager::IsGameOver(Player &player, std::vector<Obstacle> &obstacles) {
-
+    void PlayerManager::IsModeOneGameOver(Player &player, std::vector<Obstacle> &obstacles) {
       for (Obstacle &obstacle : obstacles) {
 
         // if player crashes into any obstacle
@@ -68,8 +66,16 @@ namespace geometrydash {
             
             ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <= (obstacle.GetPosition().x +
                                                             static_cast<float>(obstacle.GetWidth()) / 2))) {
-          game_over_ = true;
+          is_mode_one_game_over_ = true;
         }
+      }
+    }
+
+    void PlayerManager::IsModeTwoGameOver(Player &player, std::vector<Obstacle> &obstacles) {
+      for (Obstacle &obstacle : obstacles) {
+        
+        // if player crashes into top or bottom frame
+        if ()
       }
     }
 
@@ -78,8 +84,9 @@ namespace geometrydash {
       for (Obstacle &obstacle : obstacles) {
 
         if (obstacle.GetShape() == "rectangle1") {
-          if (((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) <= 
-               (obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight()))) && 
+          if (
+//            ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) <= 
+//               (obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight()))) && 
               
               ((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >= 
                (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) && 
@@ -88,7 +95,7 @@ namespace geometrydash {
                (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2)) && 
               
               (player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >= 
-                (obstacle.GetPosition().y - static_cast<float>(static_cast<float>(obstacle.GetHeight()) + 4.75))){
+                (obstacle.GetPosition().y - static_cast<float>(static_cast<float>(obstacle.GetHeight()) + -kPlayerJumpVelocity))) {
             
             if ((player.GetPosition().x + static_cast<float>(kPlayerWidth)/2 >= 
                  (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth())/2 + obstacle.GetVelocity().x))
@@ -112,7 +119,7 @@ namespace geometrydash {
         y_velocity *= 0;        // sets y-velocity to 0, doesn't bounce back when reach bottom
         is_on_obstacle_top_ = false;
       } else {// if no longer on obstacle top
-        y_velocity = kPlayerJumpVelocity;
+        y_velocity = -kPlayerJumpVelocity;
       }
 
       player.SetVelocity(glm::vec2(x_velocity, y_velocity));// set new velocity
@@ -120,7 +127,7 @@ namespace geometrydash {
     }
 
     bool PlayerManager::GetIsGameOver() const {
-      return game_over_;
+      return is_mode_one_game_over_;
     }
 
     bool PlayerManager::GetIsValidJump() const {
@@ -132,7 +139,7 @@ namespace geometrydash {
     }
     
     void PlayerManager::SetIsGameOver(bool state) {
-      game_over_ = state;
+      is_mode_one_game_over_ = state;
     }
 
 }// namespace geometrydash

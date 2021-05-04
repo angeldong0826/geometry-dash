@@ -34,10 +34,8 @@ namespace geometrydash {
 
     // Setter methods
     void SetPosition(const glm::vec2 &position);
-    void SetVelocity(const glm::vec2 &velocity);
 
   private:
-    // rectangular obstacle attributes
     const size_t kObstacleBorderWidth = 2;// obstacle border width
 
     glm::vec2 position_;// position of obstacle

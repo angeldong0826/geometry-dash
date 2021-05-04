@@ -22,7 +22,6 @@ namespace geometrydash {
   void GeometryDashApp::update() {
     if (!is_starting_page_) {
       AppBase::update();
-      
       game_engine_.AdvanceOneFrame();
     }
   }

@@ -97,10 +97,21 @@ namespace geometrydash {
      * Method to switch between game mode.
      */
     void SwitchMode();
+    
+    /**
+     * Actions taken in mode one of advance one frame.
+     */
+    void ModeOneActions();
+    
+    /**
+     * Actions taken in mode two of advance one frame.
+     */
+    void ModeTwoActions();
 
     // Getter methods
     bool GetIsSecondMode() const;
 
+    // Setter methods
     void SetIsMovingUp(bool state);
 
   private:
@@ -128,12 +139,13 @@ namespace geometrydash {
     const size_t kModeOneObstacleHeightLow = 60;                                                // obstacle height lower bound for part 1
     const size_t kObstacleWidthLow = 30;                                                        // obstacle width lower bound
     const size_t kObstacleWidthHigh = 55;                                                       // obstacle width upper bound
-    const double kObstacleAccelerationFactor = 1.15;                                            // obstacle acceleration factor
-    const size_t kObstacleAccelerationDistance = 800;                                           // obstacle acceleration distance
+    const double kObstacleAccelerationFactor = 1.2;                                            // obstacle acceleration factor
+    const size_t kObstacleAccelerationDistance = 700;                                           // obstacle acceleration distance
     const glm::vec2 kOriginalObstacleVelocity = {-3.5, 0};                                      // velocity obstacles_ move at
 
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
+//    const glm::vec2 kWarningDisplayPosition = {kWindowLength / 2, 450};
     const glm::vec2 kCenter = {925, 350};            // center of game frame
     const glm::vec2 kScoreDisplay = {925, 400};      // position for score display
     const glm::vec2 kMaxScoreDisplay = {925, 450};   // position for max score display
@@ -148,10 +160,10 @@ namespace geometrydash {
     const size_t kThree = 3;
 
     // for mode 2 purposes
-    const size_t kModeTwoDistance = 400;                                                       // distance to enter mode two
+    const size_t kModeTwoSwitchDistance = 1000;                                                       // distance to enter mode two
     const glm::vec2 kModeTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin};// position to spawn obstacles at for part 2
-    const size_t kModeTwoObstacleHeightHigh = 130;                                             // obstacle height upper bound for part 2
-    const size_t kModeTwoObstacleHeightLow = 60;                                               // obstacle height lower bound for part 2
+    const size_t kModeTwoObstacleHeightHigh = 170;                                             // obstacle height upper bound for part 2
+    const size_t kModeTwoObstacleHeightLow = 90;                                               // obstacle height lower bound for part 2
     const size_t kModeTwoObstacleSpawningFrequencyLowerBound = 40;                             // obstacle spawning frequency lower bound
     const size_t kModeTwoObstacleSpawningFrequencyUpperBound = 100;                            // obstacle spawning frequency upper bound
     const int kFlyFactor = 3;                                                               // factor that player "flies" in in mode 2

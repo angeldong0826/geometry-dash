@@ -50,34 +50,19 @@ namespace geometrydash {
     if (!player_manager_.GetIsModeOneOver() && !player_manager_.GetIsModeTwoOver()) {// if game isn't over
 
       if (!is_mode_two_) { // if game is in mode 1
-        if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) 
-            || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
-
-          GenerateModeOneObstacles();// generate obstacles at random time frames for first mode
-        }
-
-        UpdatePlayer();  // update player position
-        UpdateObstacle();// update obstacle position
-        
-        player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collides with boundary that it can jump within
-        player_manager_.IsModeOneGameOver(player_, obstacles_);          // check if mode 1 game is over
-        
+        ModeOneActions();
       } else { // if game is in mode 2
-        if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) 
-            || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
-
-          GenerateModeTwoObstacles();// generate obstacles at random time frames for second mode
-        }
-
-        UpdatePlayer();  // update player position
-        UpdateObstacle();// update obstacle position
-        
-        player_manager_.IsModeTwoGameOver(player_, obstacles_); // check if mode 2 game is over
+        ModeTwoActions();
       }
 
       Increment(); // increments score and tracker
       Accelerate(); // accelerates throughout game
       SwitchMode(); // switches game mode
+
+//      // Display warning message
+//      if (score_ >= 350 && score_ < 1000) {
+//        ci::gl::drawStringCentered("!!Warning!! MODE CHANGE AT SCORE 1000 !!", kWarningDisplayPosition, "white", ci::Font("Helvetica", 20));
+//      }
 
     } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {
       CalculateMaxScore(score_); // calculates maximum score when game is over
@@ -198,9 +183,36 @@ namespace geometrydash {
   }
   
   void GameEngine::SwitchMode() {
-    if (score_ % kModeTwoDistance == 0) {
+    if (score_ % kModeTwoSwitchDistance == 0) {
       is_mode_two_ = true;
     }
+  }
+
+  void GameEngine::ModeOneActions() {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound)
+        || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
+
+      GenerateModeOneObstacles();// generate obstacles at random time frames for first mode
+    }
+
+    UpdatePlayer();  // update player position
+    UpdateObstacle();// update obstacle position
+
+    player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collides with boundary that it can jump within
+    player_manager_.IsModeOneGameOver(player_, obstacles_);          // check if mode 1 game is over
+  }
+
+  void GameEngine::ModeTwoActions() {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound)
+        || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
+
+      GenerateModeTwoObstacles();// generate obstacles at random time frames for second mode
+    }
+
+    UpdatePlayer();  // update player position
+    UpdateObstacle();// update obstacle position
+
+    player_manager_.IsModeTwoGameOver(player_, obstacles_); // check if mode 2 game is over
   }
   
   bool GameEngine::GetIsSecondMode() const{

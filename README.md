@@ -1,9 +1,9 @@
 Welcome to Geometry Dash! Glad that you are here:')
 - 
-- This is a game that was made based off of the popular game
+ This is a game that was made based off of the popular game
   [Geometry Dash](https://en.wikipedia.org/wiki/Geometry_Dash). Unfortunately, it is lamer. But on a brighter side,
 it can be very easily understood and played.
-  
+
 ---
   
 Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html)

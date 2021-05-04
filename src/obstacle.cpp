@@ -26,7 +26,7 @@ namespace geometrydash {
       
       // ---------- 2's are obstacles generated on top -----------
       } else if (shape_ == "rectangle2") {
-        ci::gl::color(ci::Color("teal"));
+        ci::gl::color(ci::Color("pink"));
         ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y},
                                           glm::vec2{position_.x + static_cast<float>(width_) / 2, 
                                                     position_.y + static_cast<float>(height_)}),

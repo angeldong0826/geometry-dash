@@ -35,7 +35,8 @@ namespace geometrydash {
         
         if (!game_engine_.GetIsSecondMode()) { // if game is not in mode 2
           game_engine_.ModeOneJump();
-        } else {
+          
+        } else { // if game is in mode 2
           game_engine_.SetIsMovingUp(true);
         }
       }

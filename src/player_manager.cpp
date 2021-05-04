@@ -67,6 +67,7 @@ namespace geometrydash {
             
             ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <= 
              (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2))) {
+          
           is_mode_one_over_ = true;
         }
       }
@@ -78,6 +79,9 @@ namespace geometrydash {
         // if player crashes into top or bottom frame
         if (((player.GetPosition().y - static_cast<float>(kPlayerWidth) / 2) <= static_cast<float>(kFrameMargin)) 
             || ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >= static_cast<float>(kLinePosition))) {
+
+          std::cout << player.GetPosition().y << std::endl;
+          std::cout << player.GetVelocity().y << std::endl;
 
           // if obstacle is on bottom
           if (obstacle.GetShape() == "triangle1" || obstacle.GetShape() == "rectangle1") {

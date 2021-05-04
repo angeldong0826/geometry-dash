@@ -154,7 +154,7 @@ namespace geometrydash {
     const size_t kModeTwoObstacleHeightLow = 60;                                               // obstacle height lower bound for part 2
     const size_t kModeTwoObstacleSpawningFrequencyLowerBound = 40;                             // obstacle spawning frequency lower bound
     const size_t kModeTwoObstacleSpawningFrequencyUpperBound = 100;                            // obstacle spawning frequency upper bound
-    const size_t kFlyFactor = 3;                                                               // factor that player "flies" in in mode 2
+    const int kFlyFactor = 3;                                                               // factor that player "flies" in in mode 2
     bool is_mode_two_ = false;                                                                 // bool to determine if game is in mode 2
     bool is_moving_up_ = false;                                                                // bool to determine if player is moving up
 

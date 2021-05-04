@@ -151,6 +151,7 @@ namespace geometrydash {
     if (is_mode_two_) { // if in mode 2
       if (is_moving_up_) {
         player_.SetVelocity(glm::vec2(0, -kFlyFactor));
+        
       } else {
         player_.SetVelocity(glm::vec2(0, kFlyFactor));
       }

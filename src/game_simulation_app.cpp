@@ -10,9 +10,7 @@ namespace geometrydash {
     ci::gl::clear(background_color);
     
     if (is_starting_page_) {
-      ci::gl::drawStringCentered("WELCOME TO GEOMETRY DASH!", kCenter, "white", ci::Font("Helvetica", 24));
-      ci::gl::drawStringCentered("(well a lamer version but yeah uhh hello hi welcome)", kParenthesisDisplay, "white", ci::Font("Helvetica", 17));
-      ci::gl::drawStringCentered("PRESS 'SPACE' TO START GAME. GOOD LUCK.", kInstructionDisplay, "white", ci::Font("Helvetica", 20));
+      DisplayStartMenu();
       
     } else {
       game_engine_.Display();
@@ -34,12 +32,30 @@ namespace geometrydash {
       
     } else {
       if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
-        game_engine_.Jump();
+        
+        if (!game_engine_.GetIsSecondMode()) { // if game is not in mode 2
+          game_engine_.ModeOneJump();
+        } else {
+          game_engine_.SetIsMovingUp(true);
+        }
       }
-      if (event.getChar() == 'r') {
+      
+      if (event.getChar() == 'r') { // press key r to restart
         game_engine_.Restart();
       }
     }
+  }
+
+  void GeometryDashApp::keyUp(cinder::app::KeyEvent event) {
+    if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE && game_engine_.GetIsSecondMode()) {
+      game_engine_.SetIsMovingUp(false);
+    }
+  }
+  
+  void GeometryDashApp::DisplayStartMenu() const {
+    ci::gl::drawStringCentered("WELCOME TO GEOMETRY DASH!", kCenter, "white", ci::Font("Helvetica", 24));
+    ci::gl::drawStringCentered("(well a lamer version but yeah uhh hello hi welcome)", kParenthesisDisplay, "white", ci::Font("Helvetica", 17));
+    ci::gl::drawStringCentered("PRESS 'SPACEBAR' TO START GAME. GOOD LUCK.", kInstructionDisplay, "white", ci::Font("Helvetica", 20));
   }
 
 }// namespace geometrydash

@@ -12,7 +12,7 @@ namespace geometrydash {
   }
 
   void GameEngine::Display() const {
-    if (!player_manager_.GetIsGameOver()) {// if game isn't over
+    if (!player_manager_.GetIsModeOneOver() && !player_manager_.GetIsModeTwoOver()) {// if game isn't over
 
       // Display game frame
       ci::gl::color(ci::Color("white"));
@@ -41,44 +41,50 @@ namespace geometrydash {
       // Display score
       ci::gl::drawStringCentered("CURRENT SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white",ci::Font("Helvetica", 20));
       
-    } else if (player_manager_.GetIsGameOver()) {// if game is over
+    } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {// if game is over
       GameOverMenuDisplay();
     }
   }
 
   void GameEngine::AdvanceOneFrame() {
-    if (!player_manager_.GetIsGameOver()) {// if game isn't over
+    if (!player_manager_.GetIsModeOneOver() && !player_manager_.GetIsModeTwoOver()) {// if game isn't over
 
-      if (!is_mode_two_) {
+      if (!is_mode_two_) { // if game is in mode 1
         if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) 
             || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
 
-          GenerateModeOneObstacle();// generate obstacles at random time frames for first mode
+          GenerateModeOneObstacles();// generate obstacles at random time frames for first mode
         }
-      } else {
+
+        UpdatePlayer();  // update player position
+        UpdateObstacle();// update obstacle position
+        
+        player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collides with boundary that it can jump within
+        player_manager_.IsModeOneGameOver(player_, obstacles_);          // check if mode 1 game is over
+        
+      } else { // if game is in mode 2
         if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) 
             || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
 
-          GenerateModeTwoObstacle();// generate obstacles at random time frames for second mode
+          GenerateModeTwoObstacles();// generate obstacles at random time frames for second mode
         }
-      }
-      
-      UpdatePlayer();  // update player position
-      UpdateObstacle();// update obstacle position
 
-      player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collide with boundary that it can jump within
-      player_manager_.IsModeOneGameOver(player_, obstacles_);          // check if game is over
+        UpdatePlayer();  // update player position
+        UpdateObstacle();// update obstacle position
+        
+        player_manager_.IsModeTwoGameOver(player_, obstacles_); // check if mode 2 game is over
+      }
 
       Increment(); // increments score and tracker
-      Accelerate();
-      SwitchMode();
+      Accelerate(); // accelerates throughout game
+      SwitchMode(); // switches game mode
 
-    } else if (player_manager_.GetIsGameOver()) {
-      CalculateMaxScore(score_);
+    } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {
+      CalculateMaxScore(score_); // calculates maximum score when game is over
     }
   }
 
-  void GameEngine::GenerateModeOneObstacle() {
+  void GameEngine::GenerateModeOneObstacles() {
     size_t rand = RandomNumberGenerator(kLow, kHigh);
     if (rand < kThree) {
       obstacles_.emplace_back(kModeOneObstacleSpawningPosition, obstacle_velocity_,
@@ -93,7 +99,7 @@ namespace geometrydash {
     advancement_tracker_ = 0;// reset tracker every time an obstacle is generated
   }
 
-  void GameEngine::GenerateModeTwoObstacle() {
+  void GameEngine::GenerateModeTwoObstacles() {
     size_t rand = RandomNumberGenerator(kLow, kHigh);
     
     if (rand < kFirstBound) {
@@ -125,7 +131,7 @@ namespace geometrydash {
     return random_number_;
   }
 
-  void GameEngine::Jump() {
+  void GameEngine::ModeOneJump() {
     if (player_manager_.GetIsValidJump()) {
       player_.SetVelocity(glm::vec2{0, kPlayerJumpVelocity});
       player_manager_.SetIsValidJump(false);
@@ -142,7 +148,15 @@ namespace geometrydash {
   }
 
   void GameEngine::UpdatePlayer() {
-    player_.SetPosition(player_.GetPosition() + player_.GetVelocity());
+    if (is_mode_two_) { // if in mode 2
+      if (is_moving_up_) {
+        player_.SetVelocity(glm::vec2(0, -kFlyFactor));
+      } else {
+        player_.SetVelocity(glm::vec2(0, kFlyFactor));
+      }
+    }
+    
+    player_.SetPosition(player_.GetPosition() + player_.GetVelocity()); // set position no matter what mode
   }
   
   void GameEngine::CalculateMaxScore(size_t current) {
@@ -156,9 +170,10 @@ namespace geometrydash {
     advancement_tracker_ = 0;
     is_mode_two_ = false;
     obstacles_.clear();
-    player_manager_.SetIsGameOver(false);
+    player_manager_.SetIsModeOneOver(false);
+    player_manager_.SetIsModeTwoOver(false);
     obstacle_velocity_ = kOriginalObstacleVelocity;
-    player_.SetPosition(kPlayerPosition);
+    player_position_ = kPlayerPosition;
   }
   
   void GameEngine::Accelerate() {
@@ -184,6 +199,14 @@ namespace geometrydash {
     if (score_ % kModeTwoDistance == 0) {
       is_mode_two_ = true;
     }
+  }
+  
+  bool GameEngine::GetIsSecondMode() const{
+    return is_mode_two_;
+  }
+  
+  void GameEngine::SetIsMovingUp(bool state) {
+    is_moving_up_ = state;
   }
 
 }// namespace geometrydash

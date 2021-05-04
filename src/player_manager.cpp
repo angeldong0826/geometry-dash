@@ -75,7 +75,42 @@ namespace geometrydash {
       for (Obstacle &obstacle : obstacles) {
         
         // if player crashes into top or bottom frame
-        if ()
+        if ((player.GetPosition().y <= static_cast<float>(kFrameMargin)) || (player.GetPosition().y >= static_cast<float>(kLinePosition))) {
+          
+          // if obstacle is on bottom
+          if (obstacle.GetShape() == "triangle1" || obstacle.GetShape() == "rectangle1") {
+            if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >=
+                 (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) &&
+
+                ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) <=
+                 obstacle.GetPosition().y) &&
+
+                ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >=
+                 obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())) &&
+
+                ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <= (obstacle.GetPosition().x +
+                                                                                       static_cast<float>(obstacle.GetWidth()) / 2))) {
+              is_mode_two_game_over_ = true;
+            }
+            
+            // else if obstacle is on top
+          } else if (obstacle.GetShape() == "triangle2" || obstacle.GetShape() == "rectangle2") {
+            if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >=
+                 (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) &&
+                
+                ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <= (obstacle.GetPosition().x +
+                                                                                     static_cast<float>(obstacle.GetWidth()) / 2)) &&
+                
+              ((player.GetPosition().y - (static_cast<float>(kPlayerWidth) / 2)) <= (obstacle.GetPosition().y + obstacle.GetHeight())) &&
+                
+              ((player.GetPosition().y - (static_cast<float>(kPlayerWidth) / 2)) >= obstacle.GetPosition().y)) {
+                  
+              is_mode_two_game_over_ = true;
+            }
+          }
+          
+          is_mode_two_game_over_ = true;
+        }
       }
     }
 
@@ -126,7 +161,7 @@ namespace geometrydash {
       SetIsValidJump(true);
     }
 
-    bool PlayerManager::GetIsGameOver() const {
+    bool PlayerManager::GetIsModeOneOver() const {
       return is_mode_one_game_over_;
     }
 
@@ -137,9 +172,16 @@ namespace geometrydash {
     void PlayerManager::SetIsValidJump(bool state) {
       is_valid_jump_ = state;
     }
+    bool PlayerManager::GetIsModeTwoOver() const {
+      return is_mode_two_game_over_;
+    }
     
-    void PlayerManager::SetIsGameOver(bool state) {
+    void PlayerManager::SetIsModeOneOver(bool state) {
       is_mode_one_game_over_ = state;
+    }
+    
+    void PlayerManager::SetIsModeTwoOver(bool state) {
+      is_mode_two_game_over_ = state;
     }
 
 }// namespace geometrydash

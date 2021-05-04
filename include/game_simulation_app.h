@@ -25,11 +25,23 @@ namespace geometrydash {
     void update() override;
 
     /**
-     * Method that applies function from keyboard.
+     * Method that applies function from keyboard, when key is pressed down.
      *
      * @param event
      */
     void keyDown(cinder::app::KeyEvent event) override;
+
+    /**
+     * Method that applies function from keyboard, when key is released.
+     * 
+     * @param event 
+     */
+    void keyUp(cinder::app::KeyEvent event) override;
+
+    /**
+     * Method to display start menu.
+     */
+    void DisplayStartMenu() const;
 
   private:
     const size_t kWindowLength = 1300;// display window length

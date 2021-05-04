@@ -79,15 +79,18 @@ namespace geometrydash {
     void CalculatePostObstacleTopCollisionVelocity(Player &player);
 
     // Getter methods
-    bool GetIsGameOver() const; 
+    bool GetIsModeOneOver() const; 
+    bool GetIsModeTwoOver() const;
     bool GetIsValidJump() const;
     
     //Setter methods
     void SetIsValidJump(bool state);
-    void SetIsGameOver(bool state);
+    void SetIsModeOneOver(bool state);
+    void SetIsModeTwoOver(bool state);
 
   private:
     const size_t kWindowWidth = 700;                  // display window width
+    const size_t kFrameMargin = 100;                  // frame margin
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
     const size_t kJumpDistance = 290;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width

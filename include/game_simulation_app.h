@@ -55,7 +55,7 @@ namespace geometrydash {
 
     GameEngine game_engine_ =
             GameEngine(glm::vec2(kFrameMargin, kFrameMargin),
-                       glm::vec2(kWindowLength - kFrameMargin, kWindowWidth - kFrameMargin));// instance of game frame
+                       glm::vec2(kWindowLength - kFrameMargin, kWindowWidth - kFrameMargin));// instance of game engine
   };
 
 }// namespace geometrydash

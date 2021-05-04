@@ -108,10 +108,10 @@ namespace geometrydash {
      */
     void ModeTwoActions();
 
-    // Getter methods
+    // Getter method
     bool GetIsSecondMode() const;
 
-    // Setter methods
+    // Setter method
     void SetIsMovingUp(bool state);
 
   private:

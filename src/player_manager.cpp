@@ -79,8 +79,9 @@ namespace geometrydash {
           || ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >= static_cast<float>(kLinePosition)))) {
         
         for (Obstacle &obstacle : obstacles) {
+          
           if (obstacle.GetShape() == "triangle1" || obstacle.GetShape() == "rectangle1") {
-            // if player crashes into any obstacle
+            // if player crashes into any bottom obstacles
             if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >=
                  (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) &&
 
@@ -96,7 +97,7 @@ namespace geometrydash {
             }
             
           } else if (obstacle.GetShape() == "triangle2" || obstacle.GetShape() == "rectangle2") {
-            
+            // if player crashes into any top obstacles
             if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >=
                  (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) &&
 
@@ -111,7 +112,7 @@ namespace geometrydash {
             }
           }
         }
-      } else {
+      } else { // if crashes with top or bottom frames
         is_mode_two_over_ = true;
       }
     }
@@ -120,11 +121,8 @@ namespace geometrydash {
 
       for (Obstacle &obstacle : obstacles) {
 
-        if (obstacle.GetShape() == "rectangle1") {
+        if (obstacle.GetShape() == "rectangle1") { // only if obstacle is a rectangle on bottom
           if (
-//            ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) <= 
-//               (obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight()))) && 
-              
               ((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >= 
                (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) && 
               
@@ -158,11 +156,11 @@ namespace geometrydash {
         is_on_obstacle_top_ = false;
         
       } else {// if no longer on obstacle top
-        y_velocity = -kPlayerJumpVelocity;
+        y_velocity = -kPlayerJumpVelocity; // gives velocity to fall back down to ground
       }
 
       player.SetVelocity(glm::vec2(x_velocity, y_velocity));// set new velocity
-      SetIsValidJump(true);
+      SetIsValidJump(true);// able to jump again
     }
 
     bool PlayerManager::GetIsModeOneOver() const {

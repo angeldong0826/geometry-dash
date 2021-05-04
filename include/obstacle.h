@@ -9,7 +9,6 @@ namespace geometrydash {
    */
   class Obstacle {
   public:
-
     /**
      * Constructor that initializes obstacle attributes.
      * 
@@ -32,7 +31,7 @@ namespace geometrydash {
     size_t GetWidth() const;
     std::string GetShape() const;
 
-    // Setter methods
+    // Setter method
     void SetPosition(const glm::vec2 &position);
 
   private:

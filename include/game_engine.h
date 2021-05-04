@@ -107,6 +107,11 @@ namespace geometrydash {
      * Actions taken in mode two of advance one frame.
      */
     void ModeTwoActions();
+    
+    /**
+     * Method that contains all the displays in game.
+     */
+    void DisplayGame() const;
 
     // Getter method
     bool GetIsSecondMode() const;
@@ -145,8 +150,8 @@ namespace geometrydash {
 
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
-//    const glm::vec2 kWarningDisplayPosition = {kWindowLength / 2, 450};
-    const glm::vec2 kCenter = {925, 350};            // center of game frame
+    const glm::vec2 kWarningDisplayPosition = {kWindowLength / 2, 650};
+    const glm::vec2 kGameOverCenter = {925, 350};            // center of game frame
     const glm::vec2 kScoreDisplay = {925, 400};      // position for score display
     const glm::vec2 kMaxScoreDisplay = {925, 450};   // position for max score display
     const glm::vec2 kRestartTextDisplay = {925, 500};//restart message display position
@@ -168,6 +173,8 @@ namespace geometrydash {
     const size_t kModeTwoObstacleSpawningFrequencyLowerBound = 40;                             // obstacle spawning frequency lower bound
     const size_t kModeTwoObstacleSpawningFrequencyUpperBound = 100;                            // obstacle spawning frequency upper bound
     const int kFlyFactor = 3;                                                               // factor that player "flies" in in mode 2
+    const size_t kModeTwoWarningDisplay = 750; // score that warning message starts displaying at
+    const size_t kModeOneWarningDisplay = 1753; // score that warning message starts displaying at
     bool is_mode_two_ = false;                                                                 // bool to determine if game is in mode 2
     bool is_moving_up_ = false;                                                                // bool to determine if player is moving up
 

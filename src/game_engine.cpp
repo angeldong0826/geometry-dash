@@ -13,34 +13,8 @@ namespace geometrydash {
 
   void GameEngine::Display() const {
     if (!player_manager_.GetIsModeOneOver() && !player_manager_.GetIsModeTwoOver()) {// if game isn't over
-
-      // Display game frame
-      ci::gl::color(ci::Color("white"));
-      ci::gl::drawStrokedRect(
-        ci::Rectf(top_left_coordinate_, bottom_right_coordinate_), static_cast<float>(kFrameBorderWidth));
-
-      // Display line and player
-      ci::gl::color(ci::Color("white"));
-      ci::gl::drawLine(kLineLeft, kLineRight);
-
-      glm::vec2 player_top_left_corner = {player_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
-                                          player_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2};
-      glm::vec2 player_bottom_right_corner = {player_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
-                                              player_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2};
-
-      ci::gl::drawSolidRect(ci::Rectf(player_top_left_corner, player_bottom_right_corner));
-
-      // Display obstacle
-      for (Obstacle obstacle : obstacles_) {// only display if obstacle is moving in frame
-
-        if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(obstacle.GetWidth()) / 2) {
-          obstacle.DrawObstacle();
-        }
-      }
-
-      // Display score
-      ci::gl::drawStringCentered("CURRENT SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white", ci::Font("Helvetica", 20));
-
+      DisplayGame(); // display game
+      
     } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {// if game is over
       GameOverMenuDisplay();                                                              // display game over menu
     }
@@ -59,11 +33,6 @@ namespace geometrydash {
       Increment(); // increments score and tracker
       Accelerate();// accelerates throughout game
       SwitchMode();// switches game mode
-
-      //      // Display warning message
-      //      if (score_ >= 350 && score_ < 1000) {
-      //        ci::gl::drawStringCentered("!!Warning!! MODE CHANGE AT SCORE 1000 !!", kWarningDisplayPosition, "white", ci::Font("Helvetica", 20));
-      //      }
 
     } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {// if game is over
       CalculateMaxScore(score_);                                                          // calculates maximum score
@@ -130,13 +99,13 @@ namespace geometrydash {
     for (auto &obstacle : obstacles_) {
       obstacle.SetPosition(obstacle.GetPosition() + obstacle.GetVelocity());
 
-      //      I tried to erase obstacles from obstacles vector when they are out of frame
-      //      but the game became a bit glitchy and the obstacles would shift right a tiny bit
-      //      therefore I commented the erasing part out. See code below.
+//      I tried to erase obstacles from obstacles vector when they are out of frame
+//      but the game became a bit glitchy and the obstacles would shift right a tiny bit
+//      therefore I commented the erasing part out. See code below.
 
-      //      if (obstacle.GetPosition().x < static_cast<float>(kFrameMargin)) {
-      //        obstacles_.erase(obstacles_.begin());
-      //      }
+//      if (obstacle.GetPosition().x < static_cast<float>(kFrameMargin)) {
+//        obstacles_.erase(obstacles_.begin());
+//      }
     }
   }
 
@@ -184,7 +153,7 @@ namespace geometrydash {
 
   void GameEngine::GameOverMenuDisplay() const {
     ci::gl::draw(ci::gl::Texture::create(loadImage(ci::app::loadAsset("skull.jpeg"))));
-    ci::gl::drawStringCentered("GAME OVER. YA DEAD.", kCenter, "white", ci::Font("Helvetica", 24));
+    ci::gl::drawStringCentered("GAME OVER. YA DEAD.", kGameOverCenter, "red", ci::Font("Helvetica", 24));
     ci::gl::drawStringCentered("SCORE: " + std::to_string(score_), kScoreDisplay, "white", ci::Font("Helvetica", 20));
     ci::gl::drawStringCentered("RECORD: " + std::to_string(record_), kMaxScoreDisplay, "white", ci::Font("Helvetica", 20));
     ci::gl::drawStringCentered("PRESS  ' r '  TO RESTART.", kRestartTextDisplay, "white", ci::Font("Helvetica", 22));
@@ -199,20 +168,22 @@ namespace geometrydash {
   }
 
   void GameEngine::ModeOneActions() {
-    if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) 
+        || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
 
       GenerateModeOneObstacles();// generate obstacles at random time frames for first mode
     }
 
     UpdatePlayer();  // update player position
     UpdateObstacle();// update obstacle position
-
+    
     player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collides with boundary that it can jump within
     player_manager_.IsModeOneGameOver(player_, obstacles_);   // check if mode 1 game is over
   }
 
   void GameEngine::ModeTwoActions() {
-    if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) 
+        || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
 
       GenerateModeTwoObstacles();// generate obstacles at random time frames for second mode
     }
@@ -229,6 +200,42 @@ namespace geometrydash {
 
   void GameEngine::SetIsMovingUp(bool state) {
     is_moving_up_ = state;
+  }
+  
+  void GameEngine::DisplayGame() const {
+    // Display game frame
+    ci::gl::color(ci::Color("white"));
+    ci::gl::drawStrokedRect(
+      ci::Rectf(top_left_coordinate_, bottom_right_coordinate_), static_cast<float>(kFrameBorderWidth));
+
+    // Display line and player
+    ci::gl::color(ci::Color("white"));
+    ci::gl::drawLine(kLineLeft, kLineRight);
+
+    glm::vec2 player_top_left_corner = {player_.GetPosition().x - static_cast<float>(kPlayerWidth) / 2,
+                                        player_.GetPosition().y - static_cast<float>(kPlayerWidth) / 2};
+    glm::vec2 player_bottom_right_corner = {player_.GetPosition().x + static_cast<float>(kPlayerWidth) / 2,
+                                            player_.GetPosition().y + static_cast<float>(kPlayerWidth) / 2};
+
+    ci::gl::drawSolidRect(ci::Rectf(player_top_left_corner, player_bottom_right_corner));
+
+    // Display obstacle
+    for (Obstacle obstacle : obstacles_) {// only display if obstacle is moving in frame
+
+      if (obstacle.GetPosition().x >= static_cast<float>(kFrameMargin) + static_cast<float>(obstacle.GetWidth()) / 2) {
+        obstacle.DrawObstacle();
+      }
+    }
+
+    // Display score
+    ci::gl::drawStringCentered("CURRENT SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white", ci::Font("Helvetica", 20));
+
+    // Display warning message
+    if (score_ >= kModeTwoWarningDisplay && score_ < kModeTwoSwitchDistance) {
+      ci::gl::drawStringCentered("!!Warning!! MODE CHANGE AT SCORE 1000 !!", kWarningDisplayPosition, "red", ci::Font("Helvetica", 20));
+    } else if (score_ >= kModeOneWarningDisplay && score_ < kModeOneSwitchDistance) {
+      ci::gl::drawStringCentered("!!Warning!! MODE CHANGE AT SCORE 2000 !!", kWarningDisplayPosition, "red", ci::Font("Helvetica", 20));
+    }
   }
 
 }// namespace geometrydash

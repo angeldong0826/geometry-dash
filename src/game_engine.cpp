@@ -193,6 +193,8 @@ namespace geometrydash {
   void GameEngine::SwitchMode() {
     if (score_ % kModeTwoSwitchDistance == 0) {
       is_mode_two_ = true;
+    } else if (score_ % kModeOneSwitchDistance == 0) {
+      is_mode_two_ = false;
     }
   }
 

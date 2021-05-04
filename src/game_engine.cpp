@@ -89,11 +89,11 @@ namespace geometrydash {
     if (rand < kThree) {
       obstacles_.emplace_back(kModeOneObstacleSpawningPosition, obstacle_velocity_,
                               RandomNumberGenerator(kModeOneObstacleHeightLow, kModeOneObstacleHeightHigh),
-                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle1");
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle1");
     } else {
       obstacles_.emplace_back(kModeOneObstacleSpawningPosition, obstacle_velocity_,
                               RandomNumberGenerator(kModeOneObstacleHeightLow, kModeOneObstacleHeightHigh),
-                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "triangle1");
+                              RandomNumberGenerator(kObstacleWidthLow, kObstacleWidthHigh), "rectangle1");
     }
     
     advancement_tracker_ = 0;// reset tracker every time an obstacle is generated
@@ -174,6 +174,7 @@ namespace geometrydash {
     player_manager_.SetIsModeTwoOver(false);
     obstacle_velocity_ = kOriginalObstacleVelocity;
     player_position_ = kPlayerPosition;
+    player_.SetPosition(player_position_);
   }
   
   void GameEngine::Accelerate() {

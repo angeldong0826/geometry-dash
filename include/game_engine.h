@@ -148,15 +148,15 @@ namespace geometrydash {
     const size_t kThree = 3;
 
     // for mode 2 purposes
-    const size_t kModeTwoDistance = 500;                                                       // distance to enter mode two
+    const size_t kModeTwoDistance = 200;                                                       // distance to enter mode two
     const glm::vec2 kModeTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin};// position to spawn obstacles at for part 2
     const size_t kModeTwoObstacleHeightHigh = 130;                                             // obstacle height upper bound for part 2
     const size_t kModeTwoObstacleHeightLow = 60;                                               // obstacle height lower bound for part 2
     const size_t kModeTwoObstacleSpawningFrequencyLowerBound = 40;                             // obstacle spawning frequency lower bound
     const size_t kModeTwoObstacleSpawningFrequencyUpperBound = 100;                            // obstacle spawning frequency upper bound
-    const size_t kFlyFactor = 3;// factor that player "flies" in in mode 2
+    const size_t kFlyFactor = 3;                                                               // factor that player "flies" in in mode 2
     bool is_mode_two_ = false;                                                                 // bool to determine if game is in mode 2
-    bool is_moving_up_ = false;
+    bool is_moving_up_ = false;                                                                // bool to determine if player is moving up
 
     glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2, kLinePosition - kPlayerWidth / 2};// player position
     glm::vec2 obstacle_velocity_ = {-3.5, 0};                                                             // velocity obstacles_ move at
@@ -170,7 +170,7 @@ namespace geometrydash {
 
     size_t advancement_tracker_;// tracks number of advancement
     size_t score_ = 0;          // game score
-    size_t record_ = 0;             // max game score
+    size_t record_ = 0;         // max game score
   };
 
 }// namespace geometrydash

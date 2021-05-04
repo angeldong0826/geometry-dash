@@ -96,8 +96,8 @@ namespace geometrydash {
     const size_t kPlayerWidth = 40;                   // player width
     const double kPlayerJumpVelocity = -6.5;// velocity that player jumps by
 
-    bool is_mode_one_game_over_ = false;// game status for mode 1
-    bool is_mode_two_game_over_ = false;// game status for mose 2
+    bool is_mode_one_over_ = false;// game status for mode 1
+    bool is_mode_two_over_ = false;// game status for mose 2
     bool is_valid_jump_ = true; // to ensure single jumps
     bool is_on_obstacle_top_ = false;// to see if player is on obstacle top
   };

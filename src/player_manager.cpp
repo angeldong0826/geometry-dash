@@ -74,17 +74,13 @@ namespace geometrydash {
     }
 
     void PlayerManager::IsModeTwoGameOver(Player &player, std::vector<Obstacle> &obstacles) {
-      for (Obstacle &obstacle : obstacles) {
+      // if player hasn't crashed into top or bottom frame
+      if (!(((player.GetPosition().y - static_cast<float>(kPlayerWidth) / 2) <= static_cast<float>(kFrameMargin))
+          || ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >= static_cast<float>(kLinePosition)))) {
         
-        // if player crashes into top or bottom frame
-        if (((player.GetPosition().y - static_cast<float>(kPlayerWidth) / 2) <= static_cast<float>(kFrameMargin)) 
-            || ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >= static_cast<float>(kLinePosition))) {
-
-          std::cout << player.GetPosition().y << std::endl;
-          std::cout << player.GetVelocity().y << std::endl;
-
-          // if obstacle is on bottom
+        for (Obstacle &obstacle : obstacles) {
           if (obstacle.GetShape() == "triangle1" || obstacle.GetShape() == "rectangle1") {
+            // if player crashes into any obstacle
             if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >=
                  (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) &&
 
@@ -94,32 +90,29 @@ namespace geometrydash {
                 ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >
                  obstacle.GetPosition().y - static_cast<float>(obstacle.GetHeight())) &&
 
-                ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <= 
+                ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <=
                  (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2))) {
-              std::cout << "1" << std::endl;
               is_mode_two_over_ = true;
             }
             
-            // else if obstacle is on top
           } else if (obstacle.GetShape() == "triangle2" || obstacle.GetShape() == "rectangle2") {
             
             if (((player.GetPosition().x + static_cast<float>(kPlayerWidth) / 2) >=
                  (obstacle.GetPosition().x - static_cast<float>(obstacle.GetWidth()) / 2)) &&
-                
-                ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <= 
+
+                ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <=
                  (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2)) &&
-                
-              ((player.GetPosition().y - (static_cast<float>(kPlayerWidth) / 2)) <= 
+
+                ((player.GetPosition().y - (static_cast<float>(kPlayerWidth) / 2)) <=
                  (obstacle.GetPosition().y + static_cast<float>(obstacle.GetHeight()))) &&
-                
-              ((player.GetPosition().y - (static_cast<float>(kPlayerWidth) / 2)) >= obstacle.GetPosition().y)) {
-              std::cout << "2" << std::endl;
+
+                ((player.GetPosition().y - (static_cast<float>(kPlayerWidth) / 2)) >= obstacle.GetPosition().y)) {
               is_mode_two_over_ = true;
             }
           }
-          std::cout << "3" << std::endl;
-          is_mode_two_over_ = true;
         }
+      } else {
+        is_mode_two_over_ = true;
       }
     }
 

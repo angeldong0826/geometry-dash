@@ -148,7 +148,7 @@ namespace geometrydash {
     const size_t kThree = 3;
 
     // for mode 2 purposes
-    const size_t kModeTwoDistance = 200;                                                       // distance to enter mode two
+    const size_t kModeTwoDistance = 400;                                                       // distance to enter mode two
     const glm::vec2 kModeTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin};// position to spawn obstacles at for part 2
     const size_t kModeTwoObstacleHeightHigh = 130;                                             // obstacle height upper bound for part 2
     const size_t kModeTwoObstacleHeightLow = 60;                                               // obstacle height lower bound for part 2

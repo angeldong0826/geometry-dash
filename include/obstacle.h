@@ -35,7 +35,7 @@ namespace geometrydash {
     void SetPosition(const glm::vec2 &position);
 
   private:
-    const size_t kObstacleBorderWidth = 2;// obstacle border width
+    size_t kObstacleBorderWidth = 2;// obstacle border width, cannot be const due to testing reasonings
 
     glm::vec2 position_;// position of obstacle
     glm::vec2 velocity_;// velocity of obstacle

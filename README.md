@@ -46,6 +46,7 @@ kill you.
   - Obstacles will only generate on the bottom.
 - FLAPPY BIRD MODE
     - This mode begins immediately once player hits a score of 1000.
+        - Mode switch every score of 1000.
     - Running into any obstacle WILL kill you.
         - Unlike original, you cannot land on any obstacle.
         - tldr, AVOID OBSTACLES AT ALL COSTS

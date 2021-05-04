@@ -52,7 +52,7 @@ namespace geometrydash {
       }
     }
 
-    void PlayerManager::IsModeOneGameOver(Player &player, std::vector<Obstacle> &obstacles) {
+    void PlayerManager::IsModeOneGameOver(Player &player, std::vector<Obstacle> obstacles) {
       for (Obstacle &obstacle : obstacles) {
 
         // if player crashes into any obstacle
@@ -174,6 +174,7 @@ namespace geometrydash {
     void PlayerManager::SetIsValidJump(bool state) {
       is_valid_jump_ = state;
     }
+    
     bool PlayerManager::GetIsModeTwoOver() const {
       return is_mode_two_over_;
     }

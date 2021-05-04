@@ -20,6 +20,14 @@ namespace geometrydash {
      * @param bottom_right_corner coordinates of bottom right corner of frame
      */
     GameEngine(const glm::vec2 &top_left_corner, const glm::vec2 &bottom_right_corner);
+    
+    /**
+     * Constructor to initiate game with player and obstacles.
+     * 
+     * @param player 
+     * @param obstacles 
+     */
+    GameEngine(Player &player, std::vector<Obstacle> &obstacles);
 
     /**
      * Displays the frame walls and the current positions of the particles in game.
@@ -115,6 +123,7 @@ namespace geometrydash {
 
     // Getter method
     bool GetIsSecondMode() const;
+    std::vector<Obstacle> GetObstacle() const;
 
     // Setter method
     void SetIsMovingUp(bool state);

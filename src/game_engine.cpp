@@ -11,10 +11,15 @@ namespace geometrydash {
     bottom_right_coordinate_ = bottom_right_coordinate;
   }
 
+  GameEngine::GameEngine(Player &player, std::vector<Obstacle> &obstacles) {
+    player_ = player;
+    obstacles_ = obstacles;
+  }
+
   void GameEngine::Display() const {
     if (!player_manager_.GetIsModeOneOver() && !player_manager_.GetIsModeTwoOver()) {// if game isn't over
-      DisplayGame(); // display game
-      
+      DisplayGame();                                                                 // display game
+
     } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {// if game is over
       GameOverMenuDisplay();                                                              // display game over menu
     }
@@ -25,7 +30,7 @@ namespace geometrydash {
 
       if (!is_mode_two_) {// if game is in mode 1
         ModeOneActions();
-        
+
       } else {// if game is in mode 2
         ModeTwoActions();
       }
@@ -91,7 +96,7 @@ namespace geometrydash {
     if (player_manager_.GetIsValidJump()) {
 
       player_.SetVelocity(glm::vec2{0, kPlayerJumpVelocity});
-      player_manager_.SetIsValidJump(false); // only allowed to jump once per jump
+      player_manager_.SetIsValidJump(false);// only allowed to jump once per jump
     }
   }
 
@@ -168,22 +173,20 @@ namespace geometrydash {
   }
 
   void GameEngine::ModeOneActions() {
-    if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) 
-        || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
 
       GenerateModeOneObstacles();// generate obstacles at random time frames for first mode
     }
 
     UpdatePlayer();  // update player position
     UpdateObstacle();// update obstacle position
-    
+
     player_manager_.CollidesWithBoundary(player_, obstacles_);// check if player collides with boundary that it can jump within
     player_manager_.IsModeOneGameOver(player_, obstacles_);   // check if mode 1 game is over
   }
 
   void GameEngine::ModeTwoActions() {
-    if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) 
-        || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
 
       GenerateModeTwoObstacles();// generate obstacles at random time frames for second mode
     }
@@ -201,7 +204,7 @@ namespace geometrydash {
   void GameEngine::SetIsMovingUp(bool state) {
     is_moving_up_ = state;
   }
-  
+
   void GameEngine::DisplayGame() const {
     // Display game frame
     ci::gl::color(ci::Color("white"));
@@ -230,7 +233,7 @@ namespace geometrydash {
     // Display score
     ci::gl::drawStringCentered("CURRENT SCORE: " + std::to_string(score_), kScoreDisplayPosition, "white", ci::Font("Helvetica", 20));
 
-    // Display warning message
+    // Display warning message pre-mode switch
     if (score_ >= kModeTwoWarningDisplay && score_ < kModeTwoSwitchDistance) {
       ci::gl::drawStringCentered("!!Warning!! MODE CHANGE AT SCORE 1000 !!", kWarningDisplayPosition, "red", ci::Font("Helvetica", 20));
     } else if (score_ >= kModeOneWarningDisplay && score_ < kModeOneSwitchDistance) {
@@ -238,4 +241,8 @@ namespace geometrydash {
     }
   }
 
-}// namespace geometrydash
+  std::vector<Obstacle> GameEngine::GetObstacle() const {
+    return obstacles_;
+  }
+
+} // namespace geometrydash

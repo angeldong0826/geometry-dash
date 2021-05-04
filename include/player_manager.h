@@ -53,7 +53,7 @@ namespace geometrydash {
      * @param player 
      * @param obstacles
      */
-    void IsModeOneGameOver(Player &player, std::vector<Obstacle> &obstacles);
+    void IsModeOneGameOver(Player &player, std::vector<Obstacle> obstacles);
     
     /**
      * Method that determines whether player has collided with obstacle/lost the game in mode two.

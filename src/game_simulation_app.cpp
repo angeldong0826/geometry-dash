@@ -9,10 +9,10 @@ namespace geometrydash {
     ci::Color background_color("black");
     ci::gl::clear(background_color);
     
-    if (is_starting_page_ && is_instructions_page_) { // display starting menu if on starting page
+    if (is_starting_page_ && is_instructions_page_) { // display instructions menu if on starting page and instructions page
       DisplayInstructionsPage();
       
-    } else if (is_starting_page_) {
+    } else if (is_starting_page_) { // display start menu when only on starting page
       DisplayStartMenu();
       
     } else { // otherwise display actual game

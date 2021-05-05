@@ -22,7 +22,6 @@ namespace geometrydash {
 
     } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {// if game is over
       GameOverMenuDisplay();                                                              // display game over menu
-      
     }
   }
 
@@ -254,6 +253,30 @@ namespace geometrydash {
   
   void GameEngine::SetIsModeTwo(bool state) {
     is_mode_two_ = state;
+  }
+  
+  size_t GameEngine::GetMaxScore() const {
+    return record_;
+  }
+  
+  size_t GameEngine::GetScore() const {
+    return score_;
+  }
+  
+  size_t GameEngine::GetAdvancementTracker() const {
+    return advancement_tracker_;
+  }
+  
+  glm::vec2 GameEngine::GetObstacleVelocity() const {
+    return obstacle_velocity_;
+  }
+  
+  void GameEngine::SetScore(size_t score) {
+    score_ = score;
+  }
+  
+  void GameEngine::SetAdvancementTracker(size_t tracker) {
+    advancement_tracker_ = tracker;
   }
 
 } // namespace geometrydash

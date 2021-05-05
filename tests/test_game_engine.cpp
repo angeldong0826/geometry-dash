@@ -827,4 +827,47 @@ namespace geometrydash {
       REQUIRE(game_engine.GetPlayer().GetVelocity() == glm::vec2{0,3});
     }
   }
+
+  TEST_CASE("Calculate max score") {
+    std::vector<Obstacle> obstacles;
+    PlayerManager player_manager;
+    Player player(glm::vec2{200, 300}, glm::vec2{1,0});
+    GameEngine game_engine = GameEngine(player, obstacles);
+    
+    game_engine.CalculateMaxScore(500);
+
+    REQUIRE(game_engine.GetMaxScore() == 500);
+  }
+
+  TEST_CASE("Increment") {
+    std::vector<Obstacle> obstacles;
+    PlayerManager player_manager;
+    Player player(glm::vec2{200, 300}, glm::vec2{1,0});
+    GameEngine game_engine = GameEngine(player, obstacles);
+    
+    game_engine.Increment();
+    REQUIRE(game_engine.GetScore() == 1);
+    
+    game_engine.Increment();
+    REQUIRE(game_engine.GetScore() == 2);
+  }
+
+  TEST_CASE("Restart") {
+    std::vector<Obstacle> obstacles;
+    PlayerManager player_manager;
+    Player player(glm::vec2{200, 300}, glm::vec2{1,0});
+    GameEngine game_engine = GameEngine(player, obstacles);
+    obstacles.push_back(Obstacle(glm::vec2{320, 400}, glm::vec2{0,0}, 70, 60, "triangle2"));
+
+    REQUIRE(obstacles.size() == 1);
+
+    game_engine.SetScore(30);
+    game_engine.SetAdvancementTracker(30);
+    
+    game_engine.Restart();
+
+    REQUIRE(game_engine.GetScore() == 0);
+    REQUIRE(game_engine.GetAdvancementTracker() == 0);
+    REQUIRE(game_engine.GetObstacle().size() == 0);
+  }
 }

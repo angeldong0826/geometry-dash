@@ -125,10 +125,16 @@ namespace geometrydash {
     bool GetIsSecondMode() const;
     Player GetPlayer() const;
     std::vector<Obstacle> GetObstacle() const;
+    size_t GetMaxScore() const;
+    size_t GetScore() const;
+    size_t GetAdvancementTracker() const;
+    glm::vec2 GetObstacleVelocity() const;
 
     // Setter method
     void SetIsMovingUp(bool state);
     void SetIsModeTwo(bool state);
+    void SetScore(size_t score);
+    void SetAdvancementTracker(size_t tracker);
 
   private:
     // game frame attributes
@@ -188,7 +194,7 @@ namespace geometrydash {
     const size_t kModeOneWarningDisplay = 1753;                                                // score that warning message starts displaying at
     bool is_mode_two_ = false;                                                                 // bool to determine if game is in mode 2
     bool is_moving_up_ = false;                                                                // bool to determine if player is moving up
-    
+
     glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2, kLinePosition - kPlayerWidth / 2};// player position
     glm::vec2 obstacle_velocity_ = {-3.5, 0};                                                             // velocity obstacles_ move at
 

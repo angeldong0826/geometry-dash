@@ -675,22 +675,123 @@ namespace geometrydash {
 
       REQUIRE_FALSE(player_manager.GetIsModeTwoOver());
     }
+
+    SECTION("Collide with top game frame") {
+      Player player(glm::vec2{200, 100}, glm::vec2{0,0}); // 100 is y of top frame
+      obstacles.push_back(Obstacle(glm::vec2{400, 101}, glm::vec2{0,0}, 70, 60, "rectangle2"));
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      
+      player_manager.IsModeTwoGameOver(player, game_engine.GetObstacle());
+
+      REQUIRE(player_manager.GetIsModeTwoOver());
+    }
+
+    SECTION("Collide with bottom game frame") {
+      Player player(glm::vec2{200, 467}, glm::vec2{0,0}); // 467 is y of bottom frame
+      obstacles.push_back(Obstacle(glm::vec2{400, 101}, glm::vec2{0,0}, 70, 60, "rectangle2"));
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+
+      player_manager.IsModeTwoGameOver(player, game_engine.GetObstacle());
+
+      REQUIRE(player_manager.GetIsModeTwoOver());
+    }
   }
 
   TEST_CASE("Mode One Collision") {
-    SECTION("Collide with top boundary") {
-      
-    }
-    SECTION("Collide with bottom boundary") {
-      
-    }
-    SECTION("Collide with obstacle top") {
-      
-    }
-  }
-
-  TEST_CASE("Mode Two Collision") {
+    std::vector<Obstacle> obstacles;
+    PlayerManager player_manager;
     
+    SECTION("Collide with top boundary") {
+      Player player(glm::vec2{200, 167}, glm::vec2{0,-1}); // 177 is y of top jump bound
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+
+      REQUIRE(player_manager.IsCollideWithTop(player));
+      
+      player_manager.CalculatePostTopCollisionVelocity(player);
+      REQUIRE(player.GetVelocity() == glm::vec2{0,1});
+    }
+
+    SECTION("Post top collision velocity") {
+      Player player(glm::vec2{200, 167}, glm::vec2{0,-1});
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+      player_manager.CalculatePostTopCollisionVelocity(player);
+      
+      REQUIRE(player.GetVelocity() == glm::vec2{0,1});
+    }
+
+    SECTION("Doesn't collide with top boundary") {
+      Player player(glm::vec2{200, 200}, glm::vec2{0,-1});
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+
+      REQUIRE_FALSE(player_manager.IsCollideWithTop(player));
+    }
+    
+    SECTION("Collide with bottom boundary") {
+      Player player(glm::vec2{200, 550}, glm::vec2{0,1});
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+
+      REQUIRE(player_manager.IsCollideWithFloor(player));
+    }
+
+    SECTION("Post bottom collision velocity") {
+      Player player(glm::vec2{200, 550}, glm::vec2{0,1});
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+      player_manager.CalculatePostBottomCollisionVelocity(player);
+
+      REQUIRE(player.GetVelocity() == glm::vec2{0,0});
+    }
+
+    SECTION("Doesn't collide with bottom boundary") {
+      Player player(glm::vec2{200, 444}, glm::vec2{0,1});
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+
+      REQUIRE_FALSE(player_manager.IsCollideWithFloor(player));
+    }
+    
+    SECTION("Collide with obstacle top") {
+      Player player(glm::vec2{200, 300}, glm::vec2{0,1});
+      obstacles.push_back(Obstacle(glm::vec2{200, 350}, glm::vec2{0,0}, 70, 60, "rectangle1"));
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+
+      REQUIRE(player_manager.IsCollideWithObstacleTop(player, obstacles));
+    }
+    
+    SECTION("Post obstacle top collision velocity") {
+      Player player(glm::vec2{200, 300}, glm::vec2{0,1});
+      obstacles.push_back(Obstacle(glm::vec2{200, 350}, glm::vec2{0,0}, 70, 60, "rectangle1"));
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+      player_manager.CalculatePostObstacleTopCollisionVelocity(player);
+
+      REQUIRE(player.GetVelocity() == glm::vec2{0,6.5});
+    }
+
+    SECTION("Doesn't collide with obstacle top") {
+      Player player(glm::vec2{200, 200}, glm::vec2{0,1});
+      obstacles.push_back(Obstacle(glm::vec2{200, 350}, glm::vec2{0,0}, 70, 60, "rectangle1"));
+
+      GameEngine game_engine = GameEngine(player, obstacles);
+      game_engine.UpdatePlayer();
+
+      REQUIRE_FALSE(player_manager.IsCollideWithObstacleTop(player, obstacles));
+    }
   }
 
   TEST_CASE("Mode one jump") {

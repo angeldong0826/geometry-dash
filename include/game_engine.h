@@ -20,7 +20,7 @@ namespace geometrydash {
      * @param bottom_right_corner coordinates of bottom right corner of frame
      */
     GameEngine(const glm::vec2 &top_left_corner, const glm::vec2 &bottom_right_corner);
-    
+
     /**
      * Constructor to initiate game with player and obstacles.
      * 
@@ -105,17 +105,17 @@ namespace geometrydash {
      * Method to switch between game mode.
      */
     void SwitchMode();
-    
+
     /**
      * Actions taken in mode one of advance one frame.
      */
     void ModeOneActions();
-    
+
     /**
      * Actions taken in mode two of advance one frame.
      */
     void ModeTwoActions();
-    
+
     /**
      * Method that contains all the displays in game.
      */
@@ -153,14 +153,14 @@ namespace geometrydash {
     const size_t kModeOneObstacleHeightLow = 60;                                                // obstacle height lower bound for part 1
     const size_t kObstacleWidthLow = 30;                                                        // obstacle width lower bound
     const size_t kObstacleWidthHigh = 55;                                                       // obstacle width upper bound
-    const double kObstacleAccelerationFactor = 1.2;                                            // obstacle acceleration factor
+    const double kObstacleAccelerationFactor = 1.2;                                             // obstacle acceleration factor
     const size_t kObstacleAccelerationDistance = 700;                                           // obstacle acceleration distance
     const glm::vec2 kOriginalObstacleVelocity = {-3.5, 0};                                      // velocity obstacles_ move at
 
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
     const glm::vec2 kWarningDisplayPosition = {kWindowLength / 2, 650};
-    const glm::vec2 kGameOverCenter = {925, 350};            // center of game frame
+    const glm::vec2 kGameOverCenter = {925, 350};    // center of game frame
     const glm::vec2 kScoreDisplay = {925, 400};      // position for score display
     const glm::vec2 kMaxScoreDisplay = {925, 450};   // position for max score display
     const glm::vec2 kRestartTextDisplay = {925, 500};//restart message display position
@@ -174,16 +174,16 @@ namespace geometrydash {
     const size_t kThree = 3;
 
     // for mode 2 purposes
-    const size_t kModeTwoSwitchDistance = 1000;                                                       // distance to enter mode two
-    const size_t kModeOneSwitchDistance = 2003;                                                       // distance to enter mode one
+    const size_t kModeTwoSwitchDistance = 1000;                                                // distance to enter mode two
+    const size_t kModeOneSwitchDistance = 2003;                                                // distance to enter mode one
     const glm::vec2 kModeTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin};// position to spawn obstacles at for part 2
     const size_t kModeTwoObstacleHeightHigh = 185;                                             // obstacle height upper bound for part 2
-    const size_t kModeTwoObstacleHeightLow = 100;                                               // obstacle height lower bound for part 2
+    const size_t kModeTwoObstacleHeightLow = 100;                                              // obstacle height lower bound for part 2
     const size_t kModeTwoObstacleSpawningFrequencyLowerBound = 40;                             // obstacle spawning frequency lower bound
     const size_t kModeTwoObstacleSpawningFrequencyUpperBound = 100;                            // obstacle spawning frequency upper bound
-    const int kFlyFactor = 3;                                                               // factor that player "flies" in in mode 2
-    const size_t kModeTwoWarningDisplay = 750; // score that warning message starts displaying at
-    const size_t kModeOneWarningDisplay = 1753; // score that warning message starts displaying at
+    const int kFlyFactor = 3;                                                                  // factor that player "flies" in in mode 2
+    const size_t kModeTwoWarningDisplay = 750;                                                 // score that warning message starts displaying at
+    const size_t kModeOneWarningDisplay = 1753;                                                // score that warning message starts displaying at
     bool is_mode_two_ = false;                                                                 // bool to determine if game is in mode 2
     bool is_moving_up_ = false;                                                                // bool to determine if player is moving up
 

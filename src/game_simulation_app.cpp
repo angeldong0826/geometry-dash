@@ -9,7 +9,10 @@ namespace geometrydash {
     ci::Color background_color("black");
     ci::gl::clear(background_color);
     
-    if (is_starting_page_) { // display starting menu if on starting page
+    if (is_starting_page_ && is_instructions_page_) { // display starting menu if on starting page
+      DisplayInstructionsPage();
+      
+    } else if (is_starting_page_) {
       DisplayStartMenu();
       
     } else { // otherwise display actual game
@@ -27,7 +30,13 @@ namespace geometrydash {
   void GeometryDashApp::keyDown(cinder::app::KeyEvent event) {
     if (is_starting_page_) { // on starting page
       if (event.getCode() == cinder::app::KeyEvent::KEY_SPACE) {
-        is_starting_page_ = false; // leaves starting page and enter game
+        is_starting_page_ = false; // leaves starting page and enters game
+        
+      } else if (event.getChar() == 'i') { // press i key to view instructions
+        is_instructions_page_ = true; // leaves starting page and enters instructions page
+
+      } else if (event.getCode() == cinder::app::KeyEvent::KEY_ESCAPE) { // press escape key to leave instructions page
+        is_instructions_page_ = false; // leaves instructions page and goes back to starting page
       }
       
     } else { // in game
@@ -44,9 +53,7 @@ namespace geometrydash {
       if (event.getChar() == 'r') { // press key r to restart
         game_engine_.Restart();
         
-      } else if (event.getChar() == 'i') { // press i key to view instructions
-        game_engine_.SetInstructionsPage(true);
-      }
+      } 
     }
   }
 
@@ -59,7 +66,18 @@ namespace geometrydash {
   void GeometryDashApp::DisplayStartMenu() const {
     ci::gl::drawStringCentered("WELCOME TO GEOMETRY DASH!", kCenter, "white", ci::Font("Helvetica", 24));
     ci::gl::drawStringCentered("(well a lamer version but yeah uhh hello hi welcome)", kParenthesisDisplay, "white", ci::Font("Helvetica", 17));
-    ci::gl::drawStringCentered("PRESS 'SPACEBAR' TO START GAME. GOOD LUCK.", kInstructionDisplay, "white", ci::Font("Helvetica", 20));
+    ci::gl::drawStringCentered("PRESS 'SPACEBAR' TO START GAME. GOOD LUCK.", kSpaceToEnterDisplay, "white", ci::Font("Helvetica", 20));
+    ci::gl::drawStringCentered("PRESS ' i ' to view game instructions.", kIForInstructions, "white", ci::Font("Helvetica", 18));
+  }
+
+  void GeometryDashApp::DisplayInstructionsPage() const {
+    ci::gl::drawStringCentered("KEY COMMANDS:", kFirst, "white", ci::Font("Helvetica", 24));
+    ci::gl::drawStringCentered("Original mode: ' spacebar ' to jump, ' r ' to restart game after death.", kSecond, "white", ci::Font("Helvetica", 17));
+    ci::gl::drawStringCentered("Flappy bird mode: hold ' spacebar ' to fly up, release to fly down. ' r ' to restart.", kThird, "white", ci::Font("Helvetica", 17));
+    ci::gl::drawStringCentered("Mac users - Command+Q to quit game. Windows users - Ctrl+Q to quit game.", kFourth, "white", ci::Font("Helvetica", 17));
+    ci::gl::drawStringCentered("BASIC RULES:", kFifth, "white", ci::Font("Helvetica", 23));
+    ci::gl::drawStringCentered("Original mode: you may jump only once per landing, yet you can land on rectangular obstacles.", kSixth, "white", ci::Font("Helvetica", 17));
+    ci::gl::drawStringCentered("Flappy bird mode: avoid all obstacles as well as the top and bottom frames. or else you die.", kSeventh, "white", ci::Font("Helvetica", 17));
   }
 
 }// namespace geometrydash

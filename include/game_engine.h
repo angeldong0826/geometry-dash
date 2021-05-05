@@ -120,11 +120,6 @@ namespace geometrydash {
      * Method that contains all the displays in game.
      */
     void DisplayGame() const;
-    
-    /**
-     * Method to display instructions page.
-     */
-    void DisplayInstructions() const;
 
     // Getter method
     bool GetIsSecondMode() const;
@@ -133,7 +128,6 @@ namespace geometrydash {
 
     // Setter method
     void SetIsMovingUp(bool state);
-    void SetInstructionsPage(bool state);
     void SetIsModeTwo(bool state);
 
   private:
@@ -195,10 +189,6 @@ namespace geometrydash {
     bool is_mode_two_ = false;                                                                 // bool to determine if game is in mode 2
     bool is_moving_up_ = false;                                                                // bool to determine if player is moving up
     
-    // for instructions page purposes
-    bool is_instructions_page_ = false; // bool to determine if player is on instruction page
-    const glm::vec2 kInstructionsDisplay = {650,350}; // place to display instructions
-
     glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2, kLinePosition - kPlayerWidth / 2};// player position
     glm::vec2 obstacle_velocity_ = {-3.5, 0};                                                             // velocity obstacles_ move at
 

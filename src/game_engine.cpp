@@ -22,7 +22,6 @@ namespace geometrydash {
 
     } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {// if game is over
       GameOverMenuDisplay();                                                              // display game over menu
-    } else if (is_instructions_page_ == true) {
       
     }
   }
@@ -251,18 +250,6 @@ namespace geometrydash {
   
   Player GameEngine::GetPlayer() const {
     return player_;
-  }
-  
-  void GameEngine::SetInstructionsPage(bool state) {
-    is_instructions_page_ = state;
-  }
-  void GameEngine::DisplayInstructions() const {
-    ci::gl::drawStringCentered("- Key ' spacebar ' to start game and jump (original mode), move\n"
-                               "  up when pressed and move down when released(flappy bird mode).\n"
-                               "- Key ' r ' to restart game after death.\n"
-                               "- Mac users- Command+Q to quit game.\n"
-                               "- Windows users - Ctrl+Q to quit game.",
-                               kInstructionsDisplay, "white", ci::Font("Helvetica", 20));
   }
   
   void GameEngine::SetIsModeTwo(bool state) {

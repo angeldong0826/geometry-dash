@@ -43,15 +43,31 @@ namespace geometrydash {
      */
     void DisplayStartMenu() const;
 
+    /**
+     * Method to display instructions page.
+     */
+    void DisplayInstructionsPage() const;
+
   private:
     const size_t kWindowLength = 1300;// display window length
     const size_t kWindowWidth = 700;  // display window width
     const size_t kFrameMargin = 100;  // frame margin
     const glm::vec2 kCenter = {650, 350};// center of game frame
     const glm::vec2 kParenthesisDisplay = {650,400}; // position for score display
-    const glm::vec2 kInstructionDisplay = {650,450}; // position for score display
+    const glm::vec2 kSpaceToEnterDisplay = {650,450}; // position for space display
+    const glm::vec2 kIForInstructions = {650,500}; // position for i for instruction display
 
-    bool is_starting_page_ = true; // if on starting page
+    // instructions page display purposes
+    const glm::vec2 kFirst = {650, 250};
+    const glm::vec2 kSecond = {650,300};
+    const glm::vec2 kThird = {650,330};
+    const glm::vec2 kFourth = {650,360};
+    const glm::vec2 kFifth = {650, 410};
+    const glm::vec2 kSixth = {650, 460};
+    const glm::vec2 kSeventh = {650, 490};
+
+    bool is_starting_page_ = true; // bool to determine if on starting page
+    bool is_instructions_page_ = false; // bool to determine if player is on instruction page
 
     GameEngine game_engine_ =
             GameEngine(glm::vec2(kFrameMargin, kFrameMargin),

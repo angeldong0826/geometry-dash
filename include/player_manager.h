@@ -19,12 +19,12 @@ namespace geometrydash {
     bool IsCollideWithTop(Player &player) const;
 
     /**
-     * Method that determines whether or not player collides with bottom boundary.
+     * Method that determines whether or not player collides with the floor.
      * 
      * @param player 
      * @return 
      */
-    bool IsCollideWithBottom(Player &player) const;
+    bool IsCollideWithFloor(Player &player) const;
 
     /**
      * Method that calculates post top boundary collision velocity.
@@ -48,13 +48,21 @@ namespace geometrydash {
     void CollidesWithBoundary(Player &player, std::vector<Obstacle> &obstacles);
 
     /**
-     * Method that determines whether player has collided with obstacle/lost the game.
+     * Method that determines whether player has collided with obstacle/lost the game in mode one.
      * 
      * @param player 
-     * @return true if collided false otherwise
+     * @param obstacles
      */
-    void IsGameOver(Player &player, std::vector<Obstacle> &obstacles);
-    
+    void IsModeOneGameOver(Player &player, std::vector<Obstacle> obstacles);
+
+    /**
+     * Method that determines whether player has collided with obstacle/lost the game in mode two.
+     * 
+     * @param player 
+     * @param obstacles
+     */
+    void IsModeTwoGameOver(Player &player, std::vector<Obstacle> obstacles);
+
     /**
      * Method that determines if player collided with obstacle top.
      * 
@@ -62,7 +70,7 @@ namespace geometrydash {
      * @return true if collided false otherwise
      */
     bool IsCollideWithObstacleTop(Player &player, std::vector<Obstacle> &obstacles);
-    
+
     /**
      * Method to calculate velocity after hitting top of obstacles_.
      * 
@@ -71,23 +79,27 @@ namespace geometrydash {
     void CalculatePostObstacleTopCollisionVelocity(Player &player);
 
     // Getter methods
-    bool GetIsGameOver() const; 
+    bool GetIsModeOneOver() const;
+    bool GetIsModeTwoOver() const;
     bool GetIsValidJump() const;
-    
+
     //Setter methods
     void SetIsValidJump(bool state);
-    void SetIsGameOver(bool state);
+    void SetIsModeOneOver(bool state);
+    void SetIsModeTwoOver(bool state);
 
   private:
     const size_t kWindowWidth = 700;                  // display window width
+    const size_t kFrameMargin = 100;                  // frame margin
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
     const size_t kJumpDistance = 290;                 // player vertical jump distance
     const size_t kPlayerWidth = 40;                   // player width
-    const double kPlayerJumpVelocity = 6.5;// velocity that player jumps by
+    const double kPlayerJumpVelocity = -6.5;          // velocity that player jumps by
 
-    bool game_over_ = false;// game status
-    bool is_valid_jump_ = true; // to ensure single jumps
+    bool is_mode_one_over_ = false;  // game status for mode 1
+    bool is_mode_two_over_ = false;  // game status for mose 2
+    bool is_valid_jump_ = true;      // to ensure single jumps
     bool is_on_obstacle_top_ = false;// to see if player is on obstacle top
   };
-  
+
 }// namespace geometrydash

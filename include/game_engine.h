@@ -22,6 +22,14 @@ namespace geometrydash {
     GameEngine(const glm::vec2 &top_left_corner, const glm::vec2 &bottom_right_corner);
 
     /**
+     * Constructor to initiate game with player and obstacles.
+     * 
+     * @param player 
+     * @param obstacles 
+     */
+    GameEngine(Player &player, std::vector<Obstacle> &obstacles);
+
+    /**
      * Displays the frame walls and the current positions of the particles in game.
      */
     void Display() const;
@@ -42,14 +50,19 @@ namespace geometrydash {
     size_t RandomNumberGenerator(size_t lower_bound, size_t upper_bound);
 
     /**
-     * Method that generates a new obstacle to be added to game.
+     * Method that generates new obstacles to be added to part one of game.
      */
-    void GenerateObstacle();
+    void GenerateModeOneObstacles();
 
     /**
-     * Method that executes on player when jump key is pressed.
+     * Method that generates new obstacles to be added to part two of game. 
      */
-    void Jump();
+    void GenerateModeTwoObstacles();
+
+    /**
+     * Method that executes on player when jump key is pressed in mode 1 of game.
+     */
+    void ModeOneJump();
 
     /**
      * Method that updates obstacles.
@@ -60,69 +73,141 @@ namespace geometrydash {
      * Method that updates player.
      */
     void UpdatePlayer();
-    
+
     /**
      * Method that calculates max score.
      * 
      * @param current 
      */
     void CalculateMaxScore(size_t current);
-    
+
     /**
      * Method that restarts the game.
      */
     void Restart();
 
+    /**
+     * Method that speeds up the game along the way it goes.
+     */
+    void Accelerate();
+
+    /**
+     * Methods that increments variables needed.
+     */
+    void Increment();
+
+    /**
+     * Game over menu.
+     */
+    void GameOverMenuDisplay() const;
+
+    /**
+     * Method to switch between game mode.
+     */
+    void SwitchMode();
+
+    /**
+     * Actions taken in mode one of advance one frame.
+     */
+    void ModeOneActions();
+
+    /**
+     * Actions taken in mode two of advance one frame.
+     */
+    void ModeTwoActions();
+
+    /**
+     * Method that contains all the displays in game.
+     */
+    void DisplayGame() const;
+
+    // Getter method
+    bool GetIsSecondMode() const;
+    Player GetPlayer() const;
+    std::vector<Obstacle> GetObstacle() const;
+    size_t GetMaxScore() const;
+    size_t GetScore() const;
+    size_t GetAdvancementTracker() const;
+    glm::vec2 GetObstacleVelocity() const;
+
+    // Setter method
+    void SetIsMovingUp(bool state);
+    void SetIsModeTwo(bool state);
+    void SetScore(size_t score);
+    void SetAdvancementTracker(size_t tracker);
+
   private:
     // game frame attributes
-    const size_t kFrameBorderWidth = 5;               // border width of container
-    const size_t kWindowLength = 1300;                // display window length
-    const size_t kWindowWidth = 700;                  // display window width
-    const size_t kFrameMargin = 100;                  // frame margin
+    const size_t kFrameBorderWidth = 5;// border width of container
+    const size_t kWindowLength = 1300; // display window length
+    const size_t kWindowWidth = 700;   // display window width
+    const size_t kFrameMargin = 100;   // frame margin
+
     const size_t kLinePosition = kWindowWidth / 3 * 2;// position of line
     const glm::vec2 kLineLeft = {kFrameMargin, kLinePosition};
     const glm::vec2 kLineRight = {kWindowLength - kFrameMargin, kLinePosition};
 
     // player attributes
-    const size_t kPlayerWidth = 40;       // player width
-    const double kPlayerJumpVelocity = -6.5;// velocity that player jumps by
-    const glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2,
-                                        kLinePosition - kPlayerWidth / 2};// player starting position
-    const glm::vec2 player_velocity_ = {0, 0};                   // player starting velocity
+    const size_t kPlayerWidth = 40;                                                                            // player width
+    const glm::vec2 kPlayerVelocity = {0, 0};                                                                  // player starting velocity
+    const double kPlayerJumpVelocity = -6.5;                                                                   // velocity that player jumps by
+    const glm::vec2 kPlayerPosition = {kWindowLength / 5 + kPlayerWidth / 2, kLinePosition - kPlayerWidth / 2};// player position
 
     // obstacle attributes
-    const size_t kObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
-    const size_t kObstacleSpawningFrequencyUpperBound = 140;                             // obstacle spawning frequency upper bound
-    const glm::vec2 kObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles_ at
-    const glm::vec2 kObstacleVelocity = {-3.5, 0};                                         // velocity obstacles_ move at
-    const size_t kObstacleHeightHigh = 130;                                              // obstacle height upper bound
-    const size_t kObstacleHeightLow = 50;                                                // obstacle height lower bound
-    const size_t kObstacleWidthLow = 30;                                                 // obstacle width lower bound
-    const size_t kObstacleWidthHigh = 55;                                                // obstacle width upper bound
+    const size_t kModeOneObstacleSpawningFrequencyLowerBound = 70;                              // obstacle spawning frequency lower bound
+    const size_t kModeOneObstacleSpawningFrequencyUpperBound = 140;                             // obstacle spawning frequency upper bound
+    const glm::vec2 kModeOneObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kLinePosition};// position to spawn obstacles at for part 1
+    const size_t kModeOneObstacleHeightHigh = 130;                                              // obstacle height upper bound for part 1
+    const size_t kModeOneObstacleHeightLow = 60;                                                // obstacle height lower bound for part 1
+    const size_t kObstacleWidthLow = 30;                                                        // obstacle width lower bound
+    const size_t kObstacleWidthHigh = 55;                                                       // obstacle width upper bound
+    const double kObstacleAccelerationFactor = 1.2;                                             // obstacle acceleration factor
+    const size_t kObstacleAccelerationDistance = 700;                                           // obstacle acceleration distance
+    const glm::vec2 kOriginalObstacleVelocity = {-3.5, 0};                                      // velocity obstacles_ move at
 
     // score attributes
     const glm::vec2 kScoreDisplayPosition = {kWindowLength / 2, 50};
-
-    const glm::vec2 center_ = {650, 350};// center of game
-    const glm::vec2 score_display_ = {650,400}; // position for score display
-    const glm::vec2 max_score_display_ = {650, 450}; // position for max score display
-    const glm::vec2 restart_text_display_ = {650, 500};//restart message display position
+    const glm::vec2 kWarningDisplayPosition = {kWindowLength / 2, 650};
+    const glm::vec2 kGameOverCenter = {925, 350};    // center of game frame
+    const glm::vec2 kScoreDisplay = {925, 400};      // position for score display
+    const glm::vec2 kMaxScoreDisplay = {925, 450};   // position for max score display
+    const glm::vec2 kRestartTextDisplay = {925, 500};//restart message display position
 
     // for random spawning purposes
-    const size_t high_ = 10;
-    const size_t low_ = 0;
-    const size_t mid_ = 5;
+    const size_t kHigh = 9;
+    const size_t kLow = 0;
+    const size_t kFirstBound = 2;
+    const size_t kSecondBound = 5;
+    const size_t kThirdBound = 7;
+    const size_t kThree = 3;
 
-    Player player_ = Player(player_position_, player_velocity_);// instance of player
-    PlayerManager player_manager_;                               // instance of player manager for calculation purpose
-    std::vector<Obstacle> obstacles_;                            // vector of obstacles_ in game
+    // for mode 2 purposes
+    const size_t kModeTwoSwitchDistance = 1000;                                                // distance to enter mode two
+    const size_t kModeOneSwitchDistance = 2003;                                                // distance to enter mode one
+    const glm::vec2 kModeTwoObstacleSpawningPosition = {kWindowLength / 4 * 3.5, kFrameMargin};// position to spawn obstacles at for part 2
+    const size_t kModeTwoObstacleHeightHigh = 185;                                             // obstacle height upper bound for part 2
+    const size_t kModeTwoObstacleHeightLow = 100;                                              // obstacle height lower bound for part 2
+    const size_t kModeTwoObstacleSpawningFrequencyLowerBound = 40;                             // obstacle spawning frequency lower bound
+    const size_t kModeTwoObstacleSpawningFrequencyUpperBound = 100;                            // obstacle spawning frequency upper bound
+    const int kFlyFactor = 3;                                                                  // factor that player "flies" in in mode 2
+    const size_t kModeTwoWarningDisplay = 750;                                                 // score that warning message starts displaying at
+    const size_t kModeOneWarningDisplay = 1753;                                                // score that warning message starts displaying at
+    bool is_mode_two_ = false;                                                                 // bool to determine if game is in mode 2
+    bool is_moving_up_ = false;                                                                // bool to determine if player is moving up
+
+    glm::vec2 player_position_ = {kWindowLength / 5 + kPlayerWidth / 2, kLinePosition - kPlayerWidth / 2};// player position
+    glm::vec2 obstacle_velocity_ = {-3.5, 0};                                                             // velocity obstacles_ move at
+
+    Player player_ = Player(player_position_, kPlayerVelocity);// instance of player
+    PlayerManager player_manager_;                             // instance of player manager for calculation purpose
+    std::vector<Obstacle> obstacles_;                          // vector of obstacles_ in game
 
     glm::vec2 top_left_coordinate_;    // top left corner of container
     glm::vec2 bottom_right_coordinate_;// bottom right corner of container
-    
+
     size_t advancement_tracker_;// tracks number of advancement
-    size_t score_;              // game score
-    size_t record_;// max game score
+    size_t score_ = 0;          // game score
+    size_t record_ = 0;         // max game score
   };
 
 }// namespace geometrydash

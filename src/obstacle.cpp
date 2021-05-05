@@ -11,18 +11,31 @@ namespace geometrydash {
   }
 
   void Obstacle::DrawObstacle() {
-    if (shape_ == "rectangle") {
+    // ---------- 1's are obstacles generated on bottom -----------
+    if (shape_ == "rectangle1") {
       ci::gl::color(ci::Color("white"));
       ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{position_.x - static_cast<float>(width_) / 2,
                                                   position_.y - static_cast<float>(height_)},
                                         glm::vec2{position_.x + static_cast<float>(width_) / 2,
-                                                  position_.y}),
-                              static_cast<float>(kObstacleBorderWidth));
-    } else if (shape_ == "triangle") {
-      ci::gl::color(ci::Color("pink"));
+                                                  position_.y}),static_cast<float>(kObstacleBorderWidth));
+    } else if (shape_ == "triangle1") {
+      ci::gl::color(ci::Color("teal"));
       ci::gl::drawSolidTriangle(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y}, 
                                 glm::vec2{position_.x + static_cast<float>(width_) / 2, position_.y},
                                 glm::vec2{position_.x, position_.y - static_cast<float>(height_)});
+      
+      // ---------- 2's are obstacles generated on top -----------
+      } else if (shape_ == "rectangle2") {
+        ci::gl::color(ci::Color("pink"));
+        ci::gl::drawStrokedRect(ci::Rectf(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y},
+                                          glm::vec2{position_.x + static_cast<float>(width_) / 2, 
+                                                    position_.y + static_cast<float>(height_)}),
+                                static_cast<float>(kObstacleBorderWidth));
+      } else if (shape_ == "triangle2") {
+        ci::gl::color(ci::Color("white"));
+        ci::gl::drawSolidTriangle(glm::vec2{position_.x - static_cast<float>(width_) / 2, position_.y},
+                                glm::vec2{position_.x + static_cast<float>(width_) / 2, position_.y},
+                                  glm::vec2{position_.x, position_.y + static_cast<float>(height_)});
       }
   }
 
@@ -41,13 +54,8 @@ namespace geometrydash {
   std::string Obstacle::GetShape() const {
     return shape_;
   }
-
   void Obstacle::SetPosition(const glm::vec2 &position) {
     position_ = position;
-  }
-
-  void Obstacle::SetVelocity(const glm::vec2 &velocity) {
-    velocity_ = velocity;
   }
   
 }// namespace geometrydash

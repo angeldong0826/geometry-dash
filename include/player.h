@@ -8,7 +8,6 @@ namespace geometrydash {
    */
   class Player {
   public:
-
     /**
      * Constructor that initializes player attributes.
      * 

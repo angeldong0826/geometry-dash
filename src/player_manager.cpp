@@ -73,7 +73,7 @@ namespace geometrydash {
       }
     }
 
-    void PlayerManager::IsModeTwoGameOver(Player &player, std::vector<Obstacle> &obstacles) {
+    void PlayerManager::IsModeTwoGameOver(Player &player, std::vector<Obstacle> obstacles) {
       // if player hasn't crashed into top or bottom frame
       if (!(((player.GetPosition().y - static_cast<float>(kPlayerWidth) / 2) <= static_cast<float>(kFrameMargin))
           || ((player.GetPosition().y + static_cast<float>(kPlayerWidth) / 2) >= static_cast<float>(kLinePosition)))) {
@@ -93,6 +93,7 @@ namespace geometrydash {
 
                 ((player.GetPosition().x - (static_cast<float>(kPlayerWidth) / 2)) <=
                  (obstacle.GetPosition().x + static_cast<float>(obstacle.GetWidth()) / 2))) {
+              
               is_mode_two_over_ = true;
             }
             
@@ -108,6 +109,7 @@ namespace geometrydash {
                  (obstacle.GetPosition().y + static_cast<float>(obstacle.GetHeight()))) &&
 
                 ((player.GetPosition().y - (static_cast<float>(kPlayerWidth) / 2)) >= obstacle.GetPosition().y)) {
+              
               is_mode_two_over_ = true;
             }
           }

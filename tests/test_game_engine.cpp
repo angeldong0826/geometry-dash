@@ -795,11 +795,36 @@ namespace geometrydash {
   }
 
   TEST_CASE("Mode one jump") {
+    std::vector<Obstacle> obstacles;
+    PlayerManager player_manager;
+    Player player(glm::vec2{200, 300}, glm::vec2{1,0});
+    GameEngine game_engine = GameEngine(player, obstacles);
     
+    game_engine.ModeOneJump();
+
+    REQUIRE(game_engine.GetPlayer().GetVelocity() == glm::vec2{0,-6.5});
   }
 
   TEST_CASE("Mode two jump") {
+    std::vector<Obstacle> obstacles;
+    PlayerManager player_manager;
+    Player player(glm::vec2{200, 300}, glm::vec2{1,0});
+    GameEngine game_engine = GameEngine(player, obstacles);
     
+    game_engine.SetIsModeTwo(true);
+
+    SECTION("Moving up") {
+      game_engine.SetIsMovingUp(true);
+      game_engine.UpdatePlayer();
+
+      REQUIRE(game_engine.GetPlayer().GetVelocity() == glm::vec2{0,-3});
+    }
+
+    SECTION("Moving down") {
+      game_engine.SetIsMovingUp(false);
+      game_engine.UpdatePlayer();
+
+      REQUIRE(game_engine.GetPlayer().GetVelocity() == glm::vec2{0,3});
+    }
   }
-  
 }

@@ -22,6 +22,8 @@ namespace geometrydash {
 
     } else if (player_manager_.GetIsModeOneOver() || player_manager_.GetIsModeTwoOver()) {// if game is over
       GameOverMenuDisplay();                                                              // display game over menu
+    } else if (is_instructions_page_ == true) {
+      
     }
   }
 
@@ -106,7 +108,7 @@ namespace geometrydash {
 
 //      I tried to erase obstacles from obstacles vector when they are out of frame
 //      but the game became a bit glitchy and the obstacles would shift right a tiny bit
-//      therefore I commented the erasing part out. See code below.
+//      therefore I commented the erasing part out. See code below. (working code)
 
 //      if (obstacle.GetPosition().x < static_cast<float>(kFrameMargin)) {
 //        obstacles_.erase(obstacles_.begin());
@@ -173,7 +175,8 @@ namespace geometrydash {
   }
 
   void GameEngine::ModeOneActions() {
-    if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeOneObstacleSpawningFrequencyLowerBound, kModeOneObstacleSpawningFrequencyUpperBound) 
+        || advancement_tracker_ > kModeOneObstacleSpawningFrequencyUpperBound) {
 
       GenerateModeOneObstacles();// generate obstacles at random time frames for first mode
     }
@@ -186,7 +189,8 @@ namespace geometrydash {
   }
 
   void GameEngine::ModeTwoActions() {
-    if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
+    if (advancement_tracker_ == RandomNumberGenerator(kModeTwoObstacleSpawningFrequencyLowerBound, kModeTwoObstacleSpawningFrequencyUpperBound) 
+        || advancement_tracker_ > kModeTwoObstacleSpawningFrequencyUpperBound) {
 
       GenerateModeTwoObstacles();// generate obstacles at random time frames for second mode
     }
@@ -243,6 +247,26 @@ namespace geometrydash {
 
   std::vector<Obstacle> GameEngine::GetObstacle() const {
     return obstacles_;
+  }
+  
+  Player GameEngine::GetPlayer() const {
+    return player_;
+  }
+  
+  void GameEngine::SetInstructionsPage(bool state) {
+    is_instructions_page_ = state;
+  }
+  void GameEngine::DisplayInstructions() const {
+    ci::gl::drawStringCentered("- Key ' spacebar ' to start game and jump (original mode), move\n"
+                               "  up when pressed and move down when released(flappy bird mode).\n"
+                               "- Key ' r ' to restart game after death.\n"
+                               "- Mac users- Command+Q to quit game.\n"
+                               "- Windows users - Ctrl+Q to quit game.",
+                               kInstructionsDisplay, "white", ci::Font("Helvetica", 20));
+  }
+  
+  void GameEngine::SetIsModeTwo(bool state) {
+    is_mode_two_ = state;
   }
 
 } // namespace geometrydash

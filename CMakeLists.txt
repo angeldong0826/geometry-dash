@@ -55,8 +55,7 @@ list(APPEND SOURCE_FILES    src/game_engine.cpp
         src/game_simulation_app.cpp
         src/player_manager.cpp)
 
-list(APPEND TEST_FILES tests/test_game_engine.cpp
-        tests/test_player_manager.cpp)
+list(APPEND TEST_FILES tests/test_game_engine.cpp)
 
 ci_make_app(
         APP_NAME        geometry-dash

@@ -43,6 +43,9 @@ namespace geometrydash {
       
       if (event.getChar() == 'r') { // press key r to restart
         game_engine_.Restart();
+        
+      } else if (event.getChar() == 'i') { // press i key to view instructions
+        game_engine_.SetInstructionsPage(true);
       }
     }
   }
